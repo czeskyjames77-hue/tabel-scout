@@ -13,3 +13,5 @@ Statische Seite ohne Build-Schritt.
 | `vercel.json` | Saubere URLs ohne `.html` |
 
 Live: https://table-scout.com (Vercel-Projekt `table-scout`)
+
+Deployment: Jeder Push auf `main` geht über Vercel automatisch live.

@@ -1,0 +1,768 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>table-scout Vorschau</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap">
+<style>
+/* Design tokens 1:1 aus webwerk-design.de (globals.css, oklch in Hex umgerechnet).
+   Webwerk ist bewusst nur hell, mit dunklen Abschnitten als Akzent. */
+:root {
+  color-scheme: light;
+  --background: #F4F5F7;
+  --foreground: #050B10;
+  --card: #FBFCFD;
+  --primary: #3B5BF6;
+  --primary-rgb: 59, 91, 246;
+  --brand-a: #1F7BFF;
+  --brand-b: #5B2BE0;
+  --brand-grad: linear-gradient(90deg, #1F7BFF 0%, #3B5BF6 50%, #5B2BE0 100%);
+  --secondary: #EEF0F3;
+  --muted: #F1F4F6;
+  --muted-foreground: #4E575D;
+  --border: #DBDEE1;
+  --dark: #0A0A0A;
+  --star: #F59E0B;
+  --star-off: #D1D5DB;
+  --google-blue: #2563EB;
+  --green: #16A34A;
+  --red: #EF4444;
+  --slate-50: #F8FAFC;
+  --slate-400: #94A3B8;
+  --slate-500: #64748B;
+  --slate-600: #475569;
+  --slate-800: #1E293B;
+  --slate-900: #0F172A;
+  --gray-300: #D1D5DB;
+  --gray-400: #9CA3AF;
+  --gray-500: #6B7280;
+  --gray-700: #374151;
+  --font: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --pad-x: 10vw;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+h1, h2, h3, p { margin: 0; }
+h1, h2 { text-wrap: balance; }
+.num { font-variant-numeric: tabular-nums; }
+button { font: inherit; }
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+
+.px { padding-inline: 16px; }
+@media (min-width: 768px) { .px { padding-inline: 32px; } }
+@media (min-width: 1024px) { .px { padding-inline: var(--pad-x); } }
+
+.label { display: inline-block; font-family: var(--mono); font-size: 14px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted-foreground); }
+.label.primary { color: var(--primary); }
+.grad {
+  background: linear-gradient(to bottom, var(--foreground) 0%, var(--foreground) 50%, rgba(5, 11, 16, 0.75) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.grad-white {
+  background: linear-gradient(to bottom, #fff 0%, #fff 50%, rgba(255, 255, 255, 0.75) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.h2 { font-size: 36px; font-weight: 500; line-height: 1.1; letter-spacing: -0.05em; }
+@media (min-width: 768px) { .h2 { font-size: 48px; } }
+.sub { font-size: 16px; line-height: 1.65; color: var(--muted-foreground); }
+
+.pill {
+  display: inline-flex; align-items: center; gap: 8px; border: 0; cursor: pointer;
+  border-radius: 999px; background: var(--foreground); color: var(--background);
+  padding: 12px 32px; font-size: 16px; font-weight: 500; transition: background 0.3s ease;
+}
+.pill:hover { background: rgba(5, 11, 16, 0.9); }
+.pill .arr { transition: transform 0.3s ease; }
+.pill:hover .arr { transform: translateX(4px); }
+.pill.sm { padding: 8px 20px; font-size: 14px; }
+.pill.white { background: #fff; color: var(--dark); padding: 16px 32px; }
+.pill.white:hover { background: rgba(255, 255, 255, 0.9); }
+.textlink { display: inline-block; border-bottom: 1px solid rgba(5, 11, 16, 0.25); padding-bottom: 2px; font-size: 14px; transition: border-color 0.2s; }
+.textlink:hover { border-color: rgba(5, 11, 16, 0.6); }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+  border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.7);
+  padding: 6px 12px; font-size: 14px; font-weight: 500; color: #fff;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+.chip .dot { width: 6px; height: 6px; border-radius: 50%; }
+.whitecard { background: #fff; border-radius: 16px; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 25px 50px -12px rgba(0, 0, 0, 0.25); overflow: hidden; }
+.dots-light { background-image: radial-gradient(circle, rgba(119, 119, 119, 0.1) 1px, transparent 1px); background-size: 24px 24px; }
+.dots-dark { background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px); background-size: 24px 24px; }
+
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.rise { animation: rise 0.8s ease-out both; }
+.d1 { animation-delay: 0.1s; } .d2 { animation-delay: 0.25s; } .d3 { animation-delay: 0.4s; } .d4 { animation-delay: 0.55s; } .d5 { animation-delay: 0.7s; }
+
+/* Draft banner */
+.draft { background: var(--dark); color: rgba(255, 255, 255, 0.75); font-size: 13px; text-align: center; padding-block: 8px; }
+.draft b { color: #fff; font-weight: 500; }
+
+/* Nav */
+nav.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+  border-bottom: 1px solid var(--border); background: rgba(244, 245, 247, 0.8);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+}
+nav.top .in { display: flex; height: 64px; align-items: center; justify-content: space-between; gap: 16px; }
+@media (min-width: 1024px) { nav.top .in { padding-inline: 12vw; } }
+.logo { display: flex; align-items: center; gap: 10px; transition: opacity 0.2s; }
+.logo:hover { opacity: 0.7; }
+.wm { display: flex; flex-direction: column; line-height: 1.05; }
+.wm .name { font-size: 19px; font-weight: 700; letter-spacing: -0.035em; }
+.wm .by { margin-top: 2px; font-size: 11px; font-weight: 500; color: var(--muted-foreground); }
+.wm .by b { color: var(--foreground); font-weight: 700; }
+.scout { background: var(--brand-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.byline { display: block; margin-top: 2px; font-size: 13px; font-weight: 500; color: var(--muted-foreground); }
+.byline b { color: var(--foreground); font-weight: 700; }
+.navlinks { display: none; align-items: center; gap: 4px; }
+.navlinks a { border-radius: 6px; padding: 8px 12px; font-size: 14px; font-weight: 500; color: var(--muted-foreground); transition: background 0.2s, color 0.2s; }
+.navlinks a:hover { background: var(--muted); color: var(--foreground); }
+@media (min-width: 640px) { .navlinks { display: flex; } .navcta-m { display: none; } }
+.navlinks a.pill { margin-left: 4px; padding: 8px 20px; color: var(--background); }
+.navlinks a.pill:hover { background: rgba(5, 11, 16, 0.9); color: var(--background); }
+
+/* Hero */
+.hero { position: relative; overflow: hidden; padding-block: 64px 96px; }
+@media (min-width: 1024px) { .hero { padding-block: 96px 144px; } }
+.hero .blob { position: absolute; border-radius: 50%; background: var(--primary); pointer-events: none; }
+.hero .b1 { right: -10%; top: 10%; width: 44%; height: 70%; opacity: 0.3; filter: blur(100px); }
+.hero .b2 { background: var(--brand-b); right: 15%; top: 25%; width: 33%; height: 50%; opacity: 0.2; filter: blur(120px); }
+@media (max-width: 1023px) { .hero .b1 { right: -20%; top: -20%; width: 90%; height: 45%; opacity: 0.2; filter: blur(80px); } .hero .b2 { display: none; } }
+.hero .cols { position: relative; z-index: 1; display: grid; gap: 56px; align-items: center; }
+@media (min-width: 1024px) { .hero .cols { grid-template-columns: 60% 40%; gap: 0; padding-left: 6vw; padding-right: 6vw; } .hero .left { padding-right: 32px; } }
+.hero .left { max-width: 650px; }
+.hero h1 { margin-top: 24px; font-size: 36px; font-weight: 500; line-height: 1.08; letter-spacing: -0.05em; }
+@media (min-width: 768px) { .hero h1 { font-size: 48px; } }
+.hero h1 em { font-style: normal; background: var(--brand-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero .sub { margin-top: 24px; max-width: 576px; }
+.hero .ctas { margin-top: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; }
+.stats { margin-top: 40px; display: flex; max-width: 576px; }
+.stats > div { flex: 1; padding-inline: 20px; border-left: 1px solid var(--border); }
+.stats > div:first-child { padding-left: 0; border-left: 0; }
+.stats > div:last-child { padding-right: 0; }
+.stats .v { font-size: 36px; font-weight: 500; line-height: 1.1; }
+@media (min-width: 768px) { .stats .v { font-size: 48px; } }
+.stats.facts .v { font-size: 20px; letter-spacing: -0.02em; }
+.stats .l { margin-top: 6px; font-size: 14px; line-height: 1.35; color: var(--muted-foreground); }
+@media (max-width: 480px) { .stats .v { font-size: 28px; } .stats > div { padding-inline: 12px; } }
+
+/* Google profile card */
+.gp { position: relative; width: 100%; max-width: 520px; }
+.gp-chips { position: absolute; right: -16px; top: 24px; z-index: 5; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+@media (max-width: 560px) { .gp-chips { right: -4px; } }
+.gp-chips .chip { background: rgba(0, 0, 0, 0.5); padding: 10px 16px; transition: opacity 0.45s ease, transform 0.45s ease, filter 0.45s ease; }
+.gp-chips .chip.enter { opacity: 0; transform: translateX(16px); filter: blur(4px); }
+.gp-card { background: #fff; border-radius: 24px; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 25px 50px -12px rgba(0, 0, 0, 0.25); overflow: hidden; }
+.gp-photo { position: relative; height: 176px; overflow: hidden; background: #2A2320; }
+.gp-photo svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.gp-photo .shade { position: absolute; inset-inline: 0; bottom: 0; height: 96px; background: linear-gradient(to top, rgba(18, 26, 42, 0.85) 0%, rgba(18, 26, 42, 0.1) 70%, transparent 100%); }
+.gp-photo .cap { position: absolute; left: 16px; bottom: 12px; color: #fff; font-size: 14px; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4); }
+.gp-photo .cap p:first-child { font-weight: 500; }
+.gp-photo .cap p:last-child { opacity: 0.8; }
+.gp-body { padding: 24px; }
+.gp-body h3 { font-size: 16px; font-weight: 500; color: var(--slate-900); }
+.gp-rate { margin-top: 8px; display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.gp-rate b { font-weight: 500; color: var(--slate-800); }
+.gp-rate .cnt { color: var(--google-blue); }
+.stars { display: inline-flex; gap: 4px; }
+.gp-meta { margin-top: 2px; font-size: 14px; color: var(--slate-500); }
+.gp-info { margin-top: 16px; display: grid; gap: 8px; font-size: 14px; color: var(--slate-600); }
+.gp-info div { display: flex; align-items: center; gap: 10px; }
+.gp-info svg { flex: none; color: var(--slate-400); }
+.gp-info .open { font-weight: 500; color: var(--green); }
+.gp-info .muted { color: var(--slate-400); }
+.gp-actions { margin-top: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.gp-actions div { display: flex; flex-direction: column; align-items: center; gap: 6px; border-radius: 12px; background: var(--slate-50); padding: 12px; font-size: 14px; font-weight: 500; color: #1D4ED8; }
+.gp-actions svg { color: var(--google-blue); }
+.gp-reviews { margin-top: 12px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+@media (max-width: 560px) { .gp-reviews { grid-template-columns: 1fr; } }
+.rv { border-radius: 16px; background: #fff; padding: 14px; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); }
+.rv-head { display: flex; align-items: center; gap: 8px; }
+.av { width: 32px; height: 32px; flex: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; font-weight: 500; }
+.rv-name { font-size: 14px; font-weight: 500; color: var(--slate-800); line-height: 1.2; }
+.rv p.t { margin-top: 8px; font-size: 14px; line-height: 1.35; color: var(--slate-500); }
+.rv .why { margin-top: 8px; display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; background: rgba(var(--primary-rgb), 0.1); color: var(--primary); font-size: 12px; font-weight: 500; padding: 3px 8px; }
+
+/* Rounded overlapping sections */
+.sheet { position: relative; margin-top: -32px; border-radius: 24px 24px 0 0; overflow: hidden; }
+@media (min-width: 768px) { .sheet { margin-top: -48px; border-radius: 40px 40px 0 0; } }
+.sheet.dark { background: var(--dark); color: #fff; }
+.sheet.light { background: var(--background); z-index: 2; }
+.sheet .pattern { position: absolute; inset: 0; pointer-events: none; }
+.sheet .inner { position: relative; padding-block: 96px; }
+@media (min-width: 768px) { .sheet .inner { padding-block: 128px; } }
+
+.problems { margin-top: 80px; display: grid; gap: 40px; }
+@media (min-width: 768px) { .problems { grid-template-columns: repeat(3, 1fr); } }
+.problems > div { border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px; }
+.problems h3 { font-size: 14px; font-weight: 500; }
+.problems p { margin-top: 10px; font-size: 14px; line-height: 1.65; color: rgba(255, 255, 255, 0.4); }
+
+/* Split layout */
+.split { display: flex; flex-direction: column; gap: 56px; }
+@media (min-width: 1024px) { .split { flex-direction: row; align-items: center; gap: 80px; } .split > .txt { width: 45%; } .split > .vis { width: 55%; } .split.rev { flex-direction: row-reverse; } }
+.vis .wrapv { position: relative; max-width: 576px; margin-inline: auto; }
+.vis .wrapv > .chip { position: absolute; right: -8px; top: -12px; z-index: 3; }
+.vis .wrapv > .chip.bl { right: auto; top: auto; left: -8px; bottom: -12px; }
+.txt .sub { margin-top: 20px; }
+.txt .what { margin-top: 32px; font-size: 14px; line-height: 1.65; color: var(--muted-foreground); }
+.txt .what b { font-weight: 500; color: rgba(5, 11, 16, 0.8); }
+.txt .textlink { margin-top: 16px; }
+
+/* Tier table card */
+.tc-head { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px 4px; }
+.tc-head .l { font-family: var(--mono); font-size: 14px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--gray-400); }
+.tc-head .r { font-size: 14px; color: var(--gray-300); }
+table.tiers { width: 100%; border-collapse: collapse; }
+table.tiers th { padding: 12px 20px 6px; text-align: left; font-size: 14px; font-weight: 400; color: var(--gray-400); }
+table.tiers th:last-child, table.tiers td:last-child { text-align: right; }
+table.tiers td { padding: 11px 20px; font-size: 14px; font-weight: 500; color: var(--gray-700); transition: background 0.2s; }
+table.tiers td:last-child { font-size: 16px; color: var(--gray-400); }
+table.tiers tr.on td { background: rgba(var(--primary-rgb), 0.06); }
+table.tiers tr.on td:last-child { color: var(--primary); }
+table.tiers .tag { margin-left: 6px; border-radius: 4px; background: rgba(var(--primary-rgb), 0.1); color: var(--primary); padding: 1px 4px; font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; vertical-align: 2px; }
+.tc-calc { border-top: 1px solid #F3F4F6; padding: 18px 20px 20px; }
+.tc-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 14px; color: var(--gray-500); }
+.tc-row output { font-weight: 500; color: var(--slate-900); }
+input[type="range"] { width: 100%; margin: 10px 0 14px; accent-color: var(--primary); }
+.tc-sum { margin-top: 4px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.tc-sum span { font-size: 14px; color: var(--gray-500); }
+.tc-sum b { font-size: 28px; font-weight: 500; letter-spacing: -0.03em; }
+.tc-note { margin-top: 6px; font-size: 11px; font-weight: 500; color: var(--primary); min-height: 1.4em; }
+
+/* Process */
+.plain { padding-block: 32px 96px; }
+@media (min-width: 768px) { .plain { padding-block: 48px 112px; } }
+.head-r { margin-left: auto; max-width: 672px; }
+@media (min-width: 768px) { .head-r { text-align: right; } .head-r .sub { margin-left: auto; max-width: 576px; } }
+.head-r .sub { margin-top: 20px; }
+.steps { margin-top: 56px; display: grid; gap: 40px 40px; }
+@media (min-width: 768px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+.steps > div { border-top: 1px solid var(--border); padding-top: 20px; }
+.steps .n { font-family: var(--mono); font-size: 13px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted-foreground); }
+.steps h3 { margin-top: 10px; font-size: 16px; font-weight: 500; }
+.steps p { margin-top: 8px; font-size: 14px; line-height: 1.65; color: var(--muted-foreground); }
+.steps .c { margin-top: 12px; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--primary); }
+.calcline-label { margin-top: 56px; margin-bottom: 12px; font-family: var(--mono); font-size: 14px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted-foreground); }
+.calcline { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-size: 16px; }
+.calcline .m { color: var(--muted-foreground); }
+.calcline .o { color: rgba(5, 11, 16, 0.3); }
+.calcline .r { font-weight: 500; }
+.calcnote { margin-top: 8px; font-size: 14px; line-height: 1.65; color: var(--muted-foreground); }
+.calcnote b { font-weight: 500; color: var(--primary); }
+.ctarow { margin-top: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.pill.mid { padding: 14px 28px; font-size: 14px; }
+
+/* Reply card */
+.rc-review { padding: 20px 20px 16px; }
+.rc-review .top { display: flex; gap: 10px; align-items: center; }
+.rc-review .who { font-size: 14px; font-weight: 500; color: var(--slate-800); }
+.rc-review .when { font-size: 13px; color: var(--slate-400); }
+.rc-review p { margin-top: 10px; font-size: 14px; line-height: 1.55; color: var(--slate-600); }
+.rc-reply { margin: 0 20px 20px; border-radius: 12px; background: var(--slate-50); padding: 14px 16px; }
+.rc-reply .h { font-size: 13px; font-weight: 500; color: var(--slate-800); }
+.rc-reply .h span { font-weight: 400; color: var(--slate-400); }
+.rc-reply p { margin-top: 6px; font-size: 14px; line-height: 1.55; color: var(--slate-600); }
+.rates { margin-top: 28px; display: grid; }
+.rates div { display: flex; justify-content: space-between; gap: 16px; padding-block: 12px; border-top: 1px solid var(--border); font-size: 15px; }
+.rates div:last-child { border-bottom: 1px solid var(--border); }
+.rates span:first-child { color: var(--muted-foreground); }
+.rates span:last-child { font-weight: 500; }
+.rep-calc { margin-top: 24px; }
+.rep-calc .tc-row { color: var(--muted-foreground); }
+.rep-calc .tc-row output { color: var(--foreground); }
+.rep-break { font-size: 13px; color: var(--muted-foreground); }
+
+/* Branchen */
+.branchen { border-top: 1px solid var(--border); padding-block: 96px; }
+@media (min-width: 768px) { .branchen { padding-block: 128px; } }
+.center { text-align: center; }
+.center .sub { margin: 16px auto 0; max-width: 672px; }
+.bcards { margin-top: 64px; display: grid; gap: 24px; }
+@media (min-width: 900px) { .bcards { grid-template-columns: 1fr 1fr; } }
+.bcard { position: relative; overflow: hidden; border-radius: 24px; background: var(--dark); color: #fff; padding: 32px; }
+.bcard .glow { position: absolute; width: 360px; height: 260px; right: -80px; top: -80px; border-radius: 50%; background: var(--primary); opacity: 0.25; filter: blur(90px); pointer-events: none; }
+.bcard .pattern { position: absolute; inset: 0; pointer-events: none; }
+.bcard > *:not(.glow):not(.pattern) { position: relative; }
+.bcard .label { color: rgba(255, 255, 255, 0.5); }
+.bcard h3 { margin-top: 14px; font-size: 28px; font-weight: 500; letter-spacing: -0.04em; line-height: 1.15; }
+.bcard > p { margin-top: 12px; font-size: 14px; line-height: 1.65; color: rgba(255, 255, 255, 0.55); max-width: 46ch; }
+.bcard ul { margin: 24px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.bcard li { display: flex; gap: 10px; font-size: 14px; color: rgba(255, 255, 255, 0.85); }
+.bcard li svg { flex: none; margin-top: 3px; color: #6E8BFF; }
+.bq { margin-top: 28px; border-radius: 16px; background: #fff; color: var(--slate-600); padding: 14px 16px; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05); }
+.bq .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.bq p { margin-top: 8px; font-size: 14px; line-height: 1.5; }
+.bq .v { margin-top: 8px; font-size: 12px; font-weight: 500; color: var(--primary); }
+
+/* Standorte */
+.loc-card .row { display: flex; justify-content: space-between; gap: 12px; padding: 12px 20px; border-top: 1px solid #F3F4F6; font-size: 14px; color: var(--gray-700); }
+.loc-card .row span:last-child { font-family: var(--mono); font-size: 13px; color: var(--gray-400); white-space: nowrap; }
+.loc-card .row.sum { background: rgba(var(--primary-rgb), 0.06); font-weight: 500; }
+.loc-card .row.sum span:last-child { color: var(--primary); }
+
+/* Stats band */
+.band { border-top: 1px solid var(--border); padding-block: 96px; }
+@media (min-width: 768px) { .band { padding-block: 128px; } }
+.band-grid { margin-top: 64px; display: grid; gap: 32px; }
+@media (min-width: 640px) { .band-grid { grid-template-columns: repeat(3, 1fr); } }
+.band-grid div { text-align: center; }
+.band-grid .v { font-family: var(--mono); font-size: 36px; font-weight: 500; }
+@media (min-width: 768px) { .band-grid .v { font-size: 48px; } }
+.band-grid p { margin-top: 12px; font-size: 14px; color: var(--muted-foreground); }
+
+/* FAQ */
+.faq { border-top: 1px solid var(--border); padding-block: 96px; }
+@media (min-width: 768px) { .faq { padding-block: 128px; } }
+.faq-grid { margin: 64px auto 0; max-width: 1152px; display: grid; }
+@media (min-width: 1024px) { .faq-grid { grid-template-columns: 1fr 1fr; column-gap: 48px; } }
+.qa { border-bottom: 1px solid var(--border); }
+.qa button { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px; background: none; border: 0; cursor: pointer; padding: 20px 0; text-align: left; color: var(--foreground); }
+.qa button span:first-child { font-size: 16px; font-weight: 500; }
+.qa .plus { width: 24px; height: 24px; flex: none; display: flex; align-items: center; justify-content: center; color: var(--muted-foreground); transition: transform 0.3s ease; }
+.qa.open .plus { transform: rotate(45deg); }
+.qa .ans { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.3s ease-out, padding 0.3s ease-out; }
+.qa.open .ans { grid-template-rows: 1fr; padding-bottom: 20px; }
+.qa .ans > div { overflow: hidden; }
+.qa .ans p { font-size: 14px; line-height: 1.65; color: var(--muted-foreground); }
+
+/* CTA */
+.cta { position: relative; overflow: hidden; background: var(--dark); color: #fff; padding-block: 96px; text-align: center; }
+@media (min-width: 768px) { .cta { padding-block: 128px; } }
+.cta .glow { position: absolute; left: 50%; top: 50%; width: 620px; height: 420px; max-width: 100%; transform: translate(-50%, -50%); border-radius: 50%; background: linear-gradient(90deg, #1F7BFF, #5B2BE0); opacity: 0.3; filter: blur(130px); pointer-events: none; }
+.cta .in { position: relative; max-width: 768px; margin-inline: auto; }
+.cta h2 { font-size: 36px; font-weight: 500; line-height: 1.2; }
+@media (min-width: 768px) { .cta h2 { font-size: 48px; } }
+.cta p { margin: 16px auto 0; max-width: 576px; color: rgba(255, 255, 255, 0.7); }
+.cta .btnrow { margin-top: 40px; }
+
+/* Footer */
+footer { border-top: 1px solid var(--border); background: var(--secondary); }
+footer .in { padding-block: 64px; }
+@media (min-width: 768px) { footer .in { padding-block: 80px; } }
+.fgrid { display: grid; gap: 48px; }
+@media (min-width: 768px) { .fgrid { grid-template-columns: repeat(4, 1fr); gap: 32px; } }
+.fgrid .brand { font-size: 19px; font-weight: 700; letter-spacing: -0.035em; }
+.fgrid .desc { margin-top: 16px; max-width: 320px; font-size: 14px; line-height: 1.65; color: var(--muted-foreground); }
+.fgrid h3 { margin-bottom: 16px; font-family: var(--mono); font-size: 14px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted-foreground); }
+.fgrid ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.fgrid li, .fgrid li a { font-size: 14px; color: var(--muted-foreground); transition: color 0.2s; }
+.fgrid li a:hover { color: var(--foreground); }
+.fbottom { margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; font-size: 14px; color: var(--muted-foreground); }
+.fbottom div { display: flex; gap: 24px; }
+.fbottom a:hover { color: var(--foreground); }
+</style>
+</head>
+<body>
+
+<div class="draft"><b>Entwurf</b> · Vorschau der Landingpage. Beispielbetriebe und Beispielzahlen sind Platzhalter.</div>
+
+<nav class="top" aria-label="Hauptnavigation">
+  <div class="in px">
+    <a class="logo" href="#top" aria-label="table-scout by Webwerk, Startseite">
+      <img src="/favicon.svg" width="38" height="38" alt="">
+      <span class="wm"><span class="name">table<span class="scout">-scout</span></span><span class="by">by <b>Webwerk</b></span></span>
+    </a>
+    <div class="navlinks">
+      <a href="#ablauf">Ablauf</a>
+      <a href="#preise">Preise</a>
+      <a href="#antworten">Antwort-Service</a>
+      <a href="#faq">FAQ</a>
+      <a class="pill sm" href="#pruefen" style="color:var(--background)">Profil kostenlos prüfen</a>
+    </div>
+    <a class="pill sm navcta-m" href="#pruefen" style="color:var(--background)">Profil prüfen</a>
+  </div>
+</nav>
+
+<main>
+<section class="hero" id="top">
+  <div class="blob b1" aria-hidden="true"></div>
+  <div class="blob b2" aria-hidden="true"></div>
+  <div class="cols px">
+    <div class="left">
+      <span class="label primary rise d1">Bewertungslöschung · Gastronomie &amp; Hotellerie</span>
+      <h1 class="rise d2"><span class="grad">Unberechtigte Bewertungen kosten Sie Gäste. Wir </span><em>entfernen</em><span class="grad"> sie.</span></h1>
+      <p class="sub rise d3">Große Profile sammeln Hunderte schlechte Bewertungen, viele davon ohne echten Besuch. Wir prüfen jede einzelne, begründen den Antrag bei Google und bleiben dran, bis entschieden ist.</p>
+      <div class="ctas rise d4" id="pruefen">
+        <a class="pill" href="#preise" style="color:var(--background)">Profil kostenlos prüfen <span class="arr">&rarr;</span></a>
+        <a class="textlink" href="#ablauf">So funktioniert es</a>
+      </div>
+      <div class="stats facts rise d5">
+        <div><p class="v">Geprüft</p><p class="l">Jede Bewertung einzeln gegen die Google-Richtlinien</p></div>
+        <div><p class="v">Begründet</p><p class="l">Jeder Antrag mit eigenem Löschgrund</p></div>
+        <div><p class="v">Verfolgt</p><p class="l">Bis Google entschieden hat</p></div>
+      </div>
+    </div>
+
+    <div class="right rise d3">
+      <div class="gp">
+        <div class="gp-chips" id="chips" aria-hidden="true"></div>
+        <div class="gp-card">
+          <div class="gp-photo">
+            <svg viewBox="0 0 400 176" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <defs>
+                <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4A3A2E"/><stop offset="1" stop-color="#2A211B"/></linearGradient>
+                <radialGradient id="lamp" cx="0.5" cy="0" r="0.8"><stop offset="0" stop-color="#FFD7A0" stop-opacity="0.55"/><stop offset="1" stop-color="#FFD7A0" stop-opacity="0"/></radialGradient>
+              </defs>
+              <rect width="400" height="176" fill="url(#wall)"/>
+              <rect x="0" y="0" width="400" height="10" fill="#1C1612"/>
+              <g fill="#1C1612" opacity="0.55"><rect x="30" y="20" width="4" height="156"/><rect x="130" y="20" width="4" height="156"/><rect x="230" y="20" width="4" height="156"/><rect x="330" y="20" width="4" height="156"/></g>
+              <g><circle cx="80" cy="36" r="46" fill="url(#lamp)"/><circle cx="180" cy="36" r="46" fill="url(#lamp)"/><circle cx="280" cy="36" r="46" fill="url(#lamp)"/><circle cx="370" cy="36" r="46" fill="url(#lamp)"/></g>
+              <g fill="#FFE2B8"><circle cx="80" cy="34" r="4"/><circle cx="180" cy="34" r="4"/><circle cx="280" cy="34" r="4"/><circle cx="370" cy="34" r="4"/></g>
+              <g stroke="#1C1612" stroke-width="1.5"><line x1="80" y1="10" x2="80" y2="30"/><line x1="180" y1="10" x2="180" y2="30"/><line x1="280" y1="10" x2="280" y2="30"/><line x1="370" y1="10" x2="370" y2="30"/></g>
+              <rect x="0" y="118" width="400" height="58" fill="#3A2B20"/>
+              <g fill="#5C4431"><rect x="40" y="104" width="90" height="10" rx="2"/><rect x="170" y="104" width="90" height="10" rx="2"/><rect x="300" y="104" width="90" height="10" rx="2"/></g>
+              <g fill="#E9D2A6" opacity="0.8"><rect x="62" y="92" width="7" height="12" rx="1.5"/><rect x="96" y="90" width="7" height="14" rx="1.5"/><rect x="200" y="92" width="7" height="12" rx="1.5"/><rect x="226" y="90" width="7" height="14" rx="1.5"/><rect x="330" y="92" width="7" height="12" rx="1.5"/></g>
+            </svg>
+            <div class="shade"></div>
+            <div class="cap"><p>Brauhaus am Markt</p><p>Köln · Altstadt</p></div>
+          </div>
+          <div class="gp-body">
+            <h3>Brauhaus am Markt</h3>
+            <div class="gp-rate"><b>4,0</b><span class="stars" data-rating="4.0"></span><span class="cnt num">1.074 Bewertungen</span></div>
+            <p class="gp-meta">Restaurant · Köln</p>
+            <div class="gp-info">
+              <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>Am Markt 3, 50667 Köln</div>
+              <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span class="open">Geöffnet</span><span class="muted">· Schließt 23:00 Uhr</span></div>
+            </div>
+            <div class="gp-actions">
+              <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Anrufen</div>
+              <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>Route</div>
+              <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Reservieren</div>
+            </div>
+          </div>
+        </div>
+        <div class="gp-reviews">
+          <div class="rv"><div class="rv-head"><div class="av" style="background:#DC2626">K</div><div><p class="rv-name">Kai B.</p><span class="stars" data-rating="1" data-size="9"></span></div></div><p class="t">Laden sieht von außen schon schmuddelig aus. Nie wieder.</p><span class="why">Kein Besuch</span></div>
+          <div class="rv"><div class="rv-head"><div class="av" style="background:#0891B2">L</div><div><p class="rv-name">L. Wagner</p><span class="stars" data-rating="1" data-size="9"></span></div></div><p class="t">Der Kellner ist ein Idiot und die Chefin genauso.</p><span class="why">Beleidigung</span></div>
+          <div class="rv"><div class="rv-head"><div class="av" style="background:#059669">M</div><div><p class="rv-name">Mehmet A.</p><span class="stars" data-rating="2" data-size="9"></span></div></div><p class="t">Parkplatz war voll, sind dann woanders hin.</p><span class="why">Kein Besuch</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sheet dark" id="problem">
+  <div class="pattern dots-dark" aria-hidden="true"></div>
+  <div class="inner px">
+    <h2 class="h2 grad-white" style="max-width:896px;line-height:1.05">Gäste lesen zuerst die schlechten Bewertungen.</h2>
+    <p class="sub" style="margin-top:24px;max-width:672px;color:rgba(255,255,255,0.5)">Bei einem Restaurant mit 1.000 Bewertungen sind schnell 200 davon negativ. Ein großer Teil verstößt gegen die Google-Richtlinien und bleibt trotzdem stehen, weil niemand die Anträge stellt.</p>
+    <div class="problems">
+      <div><h3>Bewertungen ohne Besuch</h3><p>Personen, die nie bei Ihnen gegessen oder übernachtet haben, bewerten nach Parkplatz, Fassade oder Hörensagen. Google entfernt solche Bewertungen, wenn man sie meldet.</p></div>
+      <div><h3>Bewertungswellen</h3><p>Ein Vorfall, ein Social-Media-Post, und plötzlich kommen Dutzende 1-Stern-Bewertungen an einem Wochenende. Der Schnitt fällt in Tagen, die Erholung dauert Jahre.</p></div>
+      <div><h3>Keine Zeit für Hunderte Anträge</h3><p>Jeder Antrag muss einzeln begründet und verfolgt werden. Bei großen Profilen ist das ein Vollzeitjob, den im Betrieb niemand übernehmen kann.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sheet light" id="ablauf">
+  <div class="pattern dots-light" aria-hidden="true"></div>
+  <div class="inner px">
+    <div class="head-r">
+      <h2 class="h2"><span class="grad">Sie wählen aus. </span><span>Wir erledigen den Rest.</span></h2>
+      <p class="sub">Vom ersten Blick auf Ihr Profil bis zur Entscheidung von Google. Sie sehen jederzeit, wo jeder Antrag steht.</p>
+    </div>
+    <div class="steps">
+      <div><span class="n">Schritt 1</span><h3>Analyse</h3><p>Wir lesen Ihr Google-Profil aus und markieren jede Bewertung, für die es einen Löschgrund gibt.</p><span class="c">Kostenlos</span></div>
+      <div><span class="n">Schritt 2</span><h3>Auswahl</h3><p>Auf Ihrer persönlichen Seite haken Sie an, was wir beantragen sollen. Nichts wird ohne Ihre Freigabe beantragt.</p><span class="c">Kostenlos</span></div>
+      <div><span class="n">Schritt 3</span><h3>Beantragung</h3><p>Wir begründen jeden Antrag einzeln bei Google und verfolgen ihn bis zur Entscheidung.</p><span class="c">Kostenlos</span></div>
+      <div><span class="n">Schritt 4</span><h3>Rechnung</h3><p>Sie erhalten eine Rechnung nur über die Bewertungen, die Google tatsächlich gelöscht hat.</p><span class="c">Nur bei Erfolg</span></div>
+    </div>
+    <div class="ctarow">
+      <a class="pill mid" href="#pruefen" style="color:var(--background)">Profil kostenlos prüfen <span class="arr">&rarr;</span></a>
+      <a class="textlink" href="#faq">Welche Bewertungen können gelöscht werden?</a>
+    </div>
+  </div>
+</section>
+
+<section class="sheet light" id="antworten" style="border-top:1px solid var(--border)">
+  <div class="pattern dots-light" aria-hidden="true"></div>
+  <div class="inner px">
+    <div class="split rev">
+      <div class="txt">
+        <h2 class="h2"><span class="grad">Was bleibt, </span><span>wird beantwortet.</span></h2>
+        <p class="sub">Unser Antwort-Service beantwortet Ihre Google-Bewertungen passend zu Ihrem Betrieb und in Ihrem Namen. Den Altbestand arbeiten wir auf einmal ab, neue Bewertungen jede Woche.</p>
+        <p class="what"><b>Wann das sinnvoll ist:</b> Bewertungen ohne Löschgrund · sachliche Kritik echter Gäste · Hunderte offene Bewertungen ohne Antwort</p>
+        <a class="textlink" href="#faq">Brauchen Sie dafür Zugang zu meinem Profil?</a>
+      </div>
+      <div class="vis">
+        <div class="wrapv">
+          <span class="chip"><span class="dot" style="background:#4ADE80"></span>Antwort veröffentlicht</span>
+          <div class="whitecard">
+            <div class="tc-head"><span class="l">Google-Bewertung</span><span class="r">Beispiel</span></div>
+            <div class="rc-review">
+              <div class="top"><div class="av" style="background:#7C3AED">S</div><div><p class="who">Sabine R.</p><span class="stars" data-rating="2" data-size="11"></span> <span class="when">vor 3 Tagen</span></div></div>
+              <p>Zimmer war sauber, aber das Frühstück um 9:30 schon fast leer geräumt. Für den Preis hätte ich mehr erwartet.</p>
+            </div>
+            <div class="rc-reply">
+              <p class="h">Antwort des Inhabers <span>· vor 2 Tagen</span></p>
+              <p>Liebe Frau R., danke für Ihr offenes Feedback. Sie haben recht, am Wochenende füllen wir das Buffet ab sofort bis 10:30 Uhr laufend nach. Wir würden uns freuen, Sie wieder bei uns zu begrüßen.</p>
+            </div>
+          </div>
+          <span class="chip bl">Sachliche Kritik bleibt stehen und wird beantwortet</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="branchen">
+  <div class="px">
+    <div class="center">
+      <h2 class="h2"><span class="grad">Gebaut für Betriebe mit </span><span>vielen Gästen.</span></h2>
+      <p class="sub">Je mehr Bewertungen ein Profil hat, desto mehr unberechtigte sind darunter. Genau dort setzen wir an.</p>
+    </div>
+    <div class="bcards">
+      <div class="bcard">
+        <div class="pattern dots-dark" aria-hidden="true"></div><div class="glow" aria-hidden="true"></div>
+        <span class="label">Gastronomie</span>
+        <h3>Restaurants, Cafés, Brauhäuser, Bars</h3>
+        <p>Gäste entscheiden in Sekunden, wo sie essen. Ein Schnitt von 3,9 statt 4,4 kostet spürbar Reservierungen.</p>
+        <ul>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Bewertungen von Personen, die nie bei Ihnen waren</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Beleidigungen gegen Personal und Inhaber</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Bewertungswellen nach einem einzelnen Vorfall</li>
+        </ul>
+      </div>
+      <div class="bcard">
+        <div class="pattern dots-dark" aria-hidden="true"></div><div class="glow" aria-hidden="true"></div>
+        <span class="label">Hotellerie</span>
+        <h3>Hotels, Pensionen, Hotelgruppen</h3>
+        <p>Bei Direktbuchungen ist Ihr Google-Profil oft der erste Eindruck, noch vor der eigenen Website.</p>
+        <ul>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Bewertungen, die ein anderes Haus meinen</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Bewertungen von Mitbewerbern oder Ex-Mitarbeitern</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Hunderte offene Bewertungen ohne Antwort</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sheet light" id="standorte" style="margin-top:0;border-radius:0;border-top:1px solid var(--border)">
+  <div class="pattern dots-light" aria-hidden="true"></div>
+  <div class="inner px">
+    <div class="split">
+      <div class="txt">
+        <span class="label">Ketten und Hotelgruppen</span>
+        <h2 class="h2" style="margin-top:16px"><span class="grad">Alle Standorte, </span><span>ein Auftrag.</span></h2>
+        <p class="sub">Wir analysieren jeden Standort einzeln und fassen alles zusammen. Sie haben einen festen Ansprechpartner und eine Rechnung mit einer Position je Standort.</p>
+        <a class="textlink" href="#pruefen">Gruppenangebot anfragen</a>
+      </div>
+      <div class="vis">
+        <div class="wrapv">
+          <span class="chip"><span class="dot" style="background:#4ADE80"></span>Ein Ansprechpartner für alle Häuser</span>
+          <div class="whitecard loc-card">
+            <div class="tc-head" style="padding-bottom:12px"><span class="l">Gruppenauftrag</span><span class="r">Beispiel</span></div>
+            <div class="row"><span>Hotel am Stadtpark, Leipzig</span><span>38 Anträge</span></div>
+            <div class="row"><span>Hotel am Stadtpark, Dresden</span><span>51 Anträge</span></div>
+            <div class="row"><span>Hotel am Stadtpark, Erfurt</span><span>24 Anträge</span></div>
+            <div class="row sum"><span>Gesamt</span><span>113 Anträge</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sheet light" id="preise" style="margin-top:0;border-radius:0;border-top:1px solid var(--border)">
+  <div class="pattern dots-light" aria-hidden="true"></div>
+  <div class="inner px">
+    <div class="split">
+      <div class="txt">
+        <h2 class="h2"><span class="grad">Klare Preise, </span><span>berechnet nur bei Erfolg.</span></h2>
+        <p class="sub">Alle Preise auf einen Blick. Die Stufe richtet sich nach der Zahl der Bewertungen, die Sie beauftragen, und gilt für jede erfolgreiche Löschung daraus. Abgelehnte Anträge kosten nichts.</p>
+        <p class="what"><b>Was wir beantragen:</b> Bewertungen ohne echten Besuch · Beleidigungen · falsche Tatsachen · Spam und Bewertungswellen · Bewertungen von Mitbewerbern oder Ex-Mitarbeitern</p>
+        <p class="what" style="margin-top:16px"><b>Antwort-Service:</b> 1 € pro Antwort, ab der 51. im Monat 0,50 €, ab der 101. nur 0,35 €. Grundgebühr 9 € im Quartal, angerechnet als Guthaben für 9 Antworten.</p>
+      </div>
+      <div class="vis">
+        <div class="wrapv">
+          <span class="chip"><span class="dot" style="background:#4ADE80"></span><span id="chip-tier">Ihre Stufe: 12 € pro Löschung</span></span>
+          <div class="whitecard">
+            <div class="tc-head"><span class="l">Staffelpreise</span><span class="r">pro gelöschter Bewertung</span></div>
+            <table class="tiers">
+              <thead><tr><th>Bewertungen im Auftrag</th><th>Preis</th></tr></thead>
+              <tbody id="tier-rows">
+                <tr data-min="10" data-max="24"><td>10 bis 24</td><td class="num">19 €</td></tr>
+                <tr data-min="25" data-max="49"><td>25 bis 49</td><td class="num">15 €</td></tr>
+                <tr data-min="50" data-max="99"><td>50 bis 99</td><td class="num">12 €</td></tr>
+                <tr data-min="100" data-max="100000"><td>ab 100</td><td class="num">9 €</td></tr>
+              </tbody>
+            </table>
+            <div class="tc-calc">
+              <label class="tc-row" for="del-count"><span>Bewertungen im Auftrag</span><output id="del-count-out" class="num">60</output></label>
+              <input id="del-count" type="range" min="1" max="200" value="60">
+              <label class="tc-row" for="del-done"><span>Davon von Google gelöscht</span><output id="del-done-out" class="num">40</output></label>
+              <input id="del-done" type="range" min="0" max="60" value="40">
+              <div class="tc-sum"><span id="del-formula">40 × 12 €</span><b class="num" id="del-total">480 €</b></div>
+              <p class="tc-note" id="del-hint"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="px">
+    <div class="center"><h2 class="h2"><span class="grad">Häufig gestellte </span><span>Fragen.</span></h2></div>
+    <div class="faq-grid">
+      <div>
+        <div class="qa"><button type="button" aria-expanded="false"><span>Welche Bewertungen können gelöscht werden?</span><span class="plus"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1V13M1 7H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button><div class="ans"><div><p>Google entfernt Bewertungen, die gegen die eigenen Richtlinien oder geltendes Recht verstoßen. Dazu gehören Bewertungen ohne echten Besuch, Beleidigungen, unwahre Tatsachenbehauptungen, Spam und Bewertungen von Mitbewerbern oder ehemaligen Mitarbeitern. Sachliche Kritik echter Gäste beantragen wir nicht.</p></div></div></div>
+        <div class="qa"><button type="button" aria-expanded="false"><span>Was kostet es, wenn Google nicht löscht?</span><span class="plus"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1V13M1 7H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button><div class="ans"><div><p>Nichts. Sie zahlen ausschließlich für Bewertungen, die Google tatsächlich entfernt hat. Analyse, Auswahl und abgelehnte Anträge sind kostenlos.</p></div></div></div>
+        <div class="qa"><button type="button" aria-expanded="false"><span>Wie wird die Staffelstufe bestimmt?</span><span class="plus"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1V13M1 7H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button><div class="ans"><div><p>Maßgeblich ist die Zahl der Bewertungen, die Sie beauftragen. Die Stufe wird bei Auftrag festgeschrieben und gilt für jede erfolgreiche Löschung aus diesem Auftrag. Der Mindestauftrag liegt bei 10 Bewertungen.</p></div></div></div>
+      </div>
+      <div>
+        <div class="qa"><button type="button" aria-expanded="false"><span>Wie lange dauert eine Löschung?</span><span class="plus"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1V13M1 7H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button><div class="ans"><div><p>Die Bearbeitungszeit legt Google fest und sie unterscheidet sich von Antrag zu Antrag. Den Stand jedes Antrags sehen Sie auf Ihrer persönlichen Seite.</p></div></div></div>
+        <div class="qa"><button type="button" aria-expanded="false"><span>Garantieren Sie eine bestimmte Zahl an Löschungen?</span><span class="plus"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1V13M1 7H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button><div class="ans"><div><p>Nein. Über jeden Antrag entscheidet Google im Einzelfall. Deshalb berechnen wir nur Erfolge.</p></div></div></div>
+        <div class="qa"><button type="button" aria-expanded="false"><span>Brauchen Sie Zugang zu meinem Google-Profil?</span><span class="plus"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1V13M1 7H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button><div class="ans"><div><p>Für den Antwort-Service laden Sie uns als Verwalter in Ihr Google-Profil ein. Den Zugang können Sie jederzeit selbst wieder entziehen.</p></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="in px">
+    <h2>Starten Sie kostenlos und ohne Risiko.</h2>
+    <p>Wir prüfen Ihr Google-Profil auf Bewertungen mit Löschgrund. Sie zahlen erst, wenn eine tatsächlich gelöscht wurde.</p>
+    <div class="btnrow"><a class="pill white" href="#top">Kostenlose Prüfung starten <span class="arr">&rarr;</span></a></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="in px">
+    <div class="fgrid">
+      <div><p class="brand">table<span class="scout">-scout</span><span class="byline">by <b>Webwerk</b></span></p><p class="desc">Bewertungslöschung und Antwort-Service für Gastronomie und Hotellerie.</p></div>
+      <div><h3>Navigation</h3><ul><li><a href="#preise">Preise</a></li><li><a href="#ablauf">Ablauf</a></li><li><a href="#faq">FAQ</a></li></ul></div>
+      <div><h3>Leistungen</h3><ul><li><a href="#preise">Bewertungslöschung</a></li><li><a href="#antworten">Antwort-Service</a></li><li><a href="#standorte">Mehrere Standorte</a></li></ul></div>
+      <div><h3>Kontakt</h3><ul><li><a href="mailto:info@webwerk-design.de">info@webwerk-design.de</a></li></ul></div>
+    </div>
+    <div class="fbottom"><p>© 2026 table-scout · Eine Marke von Webwerk-Design</p><div><a href="/impressum">Impressum</a><a href="/datenschutz">Datenschutz</a></div></div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var euro = function (v) { return v.toLocaleString('de-DE', { minimumFractionDigits: v % 1 ? 2 : 0, maximumFractionDigits: 2 }) + ' €'; };
+
+  // Stars, same shape and colors as the Webwerk profile card
+  var STAR = 'M7 1l1.545 3.13L12 4.635l-2.5 2.435.59 3.44L7 8.885l-3.09 1.625.59-3.44L2 4.635l3.455-.505z';
+  document.querySelectorAll('.stars').forEach(function (el, k) {
+    var r = parseFloat(el.getAttribute('data-rating')), size = el.getAttribute('data-size') || 16, html = '';
+    for (var s = 1; s <= 5; s++) {
+      var fill = r >= s ? '#F59E0B' : '#D1D5DB', defs = '';
+      if (r < s && r > s - 1) {
+        var pct = Math.round((r - Math.floor(r)) * 100), id = 'g' + k + '-' + s;
+        defs = '<defs><linearGradient id="' + id + '"><stop offset="' + pct + '%" stop-color="#F59E0B"/><stop offset="' + pct + '%" stop-color="#D1D5DB"/></linearGradient></defs>';
+        fill = 'url(#' + id + ')';
+      }
+      html += '<svg width="' + size + '" height="' + size + '" viewBox="0 0 14 14" aria-hidden="true">' + defs + '<path d="' + STAR + '" fill="' + fill + '"/></svg>';
+    }
+    el.innerHTML = html;
+    el.setAttribute('aria-label', String(r).replace('.', ',') + ' von 5 Sternen');
+    if (size != 16) el.style.gap = '2px';
+  });
+
+  // Cycling chips on the profile card
+  var notes = [
+    ['✕', '1-Stern-Bewertung entfernt'],
+    ['↗', 'Löschantrag eingereicht'],
+    ['✓', 'Antwort veröffentlicht'],
+    ['✕', 'Beleidigung entfernt'],
+    ['★', '96 Bewertungen mit Löschgrund']
+  ];
+  var chips = document.getElementById('chips'), i = 0;
+  function makeChip(n) {
+    var c = document.createElement('div');
+    c.className = 'chip';
+    c.innerHTML = '<span style="font-size:14px;line-height:1">' + n[0] + '</span><span>' + n[1] + '</span>';
+    return c;
+  }
+  chips.appendChild(makeChip(notes[1])); chips.appendChild(makeChip(notes[0])); i = 2;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) setInterval(function () {
+    var c = makeChip(notes[i % notes.length]); i++;
+    c.classList.add('enter');
+    chips.insertBefore(c, chips.firstChild);
+    requestAnimationFrame(function () { requestAnimationFrame(function () { c.classList.remove('enter'); }); });
+    while (chips.children.length > 2) chips.removeChild(chips.lastChild);
+  }, 2400);
+
+  // Deletion calculator
+  var tiers = [
+    { min: 10, max: 24, price: 19 }, { min: 25, max: 49, price: 15 },
+    { min: 50, max: 99, price: 12 }, { min: 100, max: Infinity, price: 9 }
+  ];
+  var rows = document.querySelectorAll('#tier-rows tr');
+  var cnt = document.getElementById('del-count'), done = document.getElementById('del-done');
+  function updateDel() {
+    var n = +cnt.value; done.max = n; if (+done.value > n) done.value = n;
+    var d = +done.value, idx = -1;
+    tiers.forEach(function (t, k) { if (n >= t.min && n <= t.max) idx = k; });
+    document.getElementById('del-count-out').textContent = n;
+    document.getElementById('del-done-out').textContent = d;
+    rows.forEach(function (r, k) {
+      r.classList.toggle('on', k === idx);
+      var first = r.firstElementChild, tag = first.querySelector('.tag');
+      if (k === idx && !tag) { tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = 'Ihre Stufe'; first.appendChild(tag); }
+      if (k !== idx && tag) tag.remove();
+    });
+    var hint = document.getElementById('del-hint'), chip = document.getElementById('chip-tier');
+    if (idx < 0) {
+      document.getElementById('del-formula').textContent = 'Mindestauftrag nicht erreicht';
+      document.getElementById('del-total').textContent = '–';
+      hint.textContent = 'Noch ' + (10 - n) + ' Bewertungen bis zum Mindestauftrag.';
+      chip.textContent = 'Mindestauftrag: 10 Bewertungen';
+      return;
+    }
+    var t = tiers[idx], next = tiers[idx + 1];
+    document.getElementById('del-formula').textContent = d + ' × ' + euro(t.price) + ', ' + (n - d) + ' abgelehnt × 0 €';
+    document.getElementById('del-total').textContent = euro(d * t.price);
+    chip.textContent = 'Ihre Stufe: ' + euro(t.price) + ' pro Löschung';
+    hint.textContent = next ? 'Noch ' + (next.min - n) + ' Bewertungen bis zur Stufe mit ' + euro(next.price) + '.' : 'Günstigste Stufe erreicht.';
+  }
+  cnt.addEventListener('input', updateDel); done.addEventListener('input', updateDel); updateDel();
+
+
+  // FAQ accordion: one open at a time per column, like Webwerk
+  document.querySelectorAll('.faq-grid > div').forEach(function (col) {
+    col.querySelectorAll('.qa').forEach(function (qa) {
+      qa.querySelector('button').addEventListener('click', function () {
+        var open = qa.classList.contains('open');
+        col.querySelectorAll('.qa').forEach(function (o) { o.classList.remove('open'); o.querySelector('button').setAttribute('aria-expanded', 'false'); });
+        if (!open) { qa.classList.add('open'); this.setAttribute('aria-expanded', 'true'); }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -376,6 +376,44 @@ footer .in { padding-block: 64px; }
 .fbottom { margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; font-size: 14px; color: var(--muted-foreground); }
 .fbottom div { display: flex; gap: 24px; }
 .fbottom a:hover { color: var(--foreground); }
+
+/* Anfrage-Formular (#pruefen) */
+.lf { padding: 24px 20px 20px; display: grid; gap: 16px; }
+@media (min-width: 640px) { .lf { padding: 28px 28px 24px; } .lf .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; } }
+.lf .two { display: grid; gap: 16px; }
+.lf label.f { display: grid; gap: 6px; font-size: 14px; font-weight: 500; color: var(--gray-700); }
+.lf label.f small { font-weight: 400; color: var(--gray-400); }
+.lf input[type=text], .lf input[type=email], .lf input[type=tel], .lf input[type=url], .lf textarea {
+  width: 100%; border: 1px solid var(--border); border-radius: 10px; background: #fff; color: var(--foreground);
+  padding: 11px 14px; font: inherit; font-size: 16px; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.lf textarea { min-height: 96px; resize: vertical; }
+.lf input:focus, .lf textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.12); }
+.lf .hint { font-size: 12px; font-weight: 400; color: var(--gray-400); }
+.lf fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 6px; }
+.lf legend { padding: 0; font-size: 14px; font-weight: 500; color: var(--gray-700); margin-bottom: 6px; }
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; border-radius: 10px; background: var(--secondary); padding: 4px; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label { text-align: center; padding: 8px 6px; border-radius: 7px; font-size: 14px; font-weight: 500; color: var(--gray-500); cursor: pointer; transition: background 0.2s, color 0.2s; }
+.seg input:checked + label { background: #fff; color: var(--foreground); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08); }
+.seg input:focus-visible + label { outline: 2px solid var(--primary); outline-offset: 2px; }
+.lf .check { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--gray-500); cursor: pointer; }
+.lf .check input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--primary); flex: none; }
+.lf .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.lf .send { justify-content: center; width: 100%; padding-block: 14px; }
+.lf .send[disabled] { opacity: 0.6; cursor: progress; }
+.lf .legal { font-size: 12px; line-height: 1.5; color: var(--gray-400); text-align: center; }
+.lf .legal a { text-decoration: underline; }
+.lf .err { font-size: 14px; color: var(--red); min-height: 0; }
+.lf[hidden], .lf-done[hidden] { display: none; }
+.lf-done { padding: 40px 28px; text-align: center; }
+.lf-done .ok { width: 48px; height: 48px; margin: 0 auto 16px; border-radius: 50%; background: rgba(22, 163, 74, 0.1); color: var(--green); display: grid; place-items: center; }
+.lf-done h3 { font-size: 20px; font-weight: 500; letter-spacing: -0.02em; }
+.lf-done p { margin-top: 8px; font-size: 14px; line-height: 1.65; color: var(--muted-foreground); }
+.lsteps { margin-top: 32px; display: grid; gap: 14px; padding: 0; list-style: none; }
+.lsteps li { display: flex; gap: 12px; font-size: 14px; line-height: 1.6; color: var(--muted-foreground); }
+.lsteps li b { font-weight: 500; color: rgba(5, 11, 16, 0.8); }
+.lsteps .n { flex: none; width: 24px; height: 24px; border-radius: 50%; background: rgba(var(--primary-rgb), 0.1); color: var(--primary); font-size: 12px; font-weight: 600; display: grid; place-items: center; margin-top: 1px; }
 </style>
 </head>
 <body>
@@ -408,8 +446,8 @@ footer .in { padding-block: 64px; }
       <span class="label primary rise d1">Bewertungslöschung · Gastronomie &amp; Hotellerie</span>
       <h1 class="rise d2"><span class="grad">Unberechtigte Bewertungen kosten Sie Gäste. Wir </span><em>entfernen</em><span class="grad"> sie.</span></h1>
       <p class="sub rise d3">Große Profile sammeln Hunderte schlechte Bewertungen, viele davon ohne echten Besuch. Wir prüfen jede einzelne, begründen den Antrag bei Google und bleiben dran, bis entschieden ist.</p>
-      <div class="ctas rise d4" id="pruefen">
-        <a class="pill" href="#preise" style="color:var(--background)">Profil kostenlos prüfen <span class="arr">&rarr;</span></a>
+      <div class="ctas rise d4">
+        <a class="pill" href="#pruefen" style="color:var(--background)">Profil kostenlos prüfen <span class="arr">&rarr;</span></a>
         <a class="textlink" href="#ablauf">So funktioniert es</a>
       </div>
       <div class="stats facts rise d5">
@@ -572,7 +610,7 @@ footer .in { padding-block: 64px; }
         <span class="label">Ketten und Hotelgruppen</span>
         <h2 class="h2" style="margin-top:16px"><span class="grad">Alle Standorte, </span><span>ein Auftrag.</span></h2>
         <p class="sub">Wir analysieren jeden Standort einzeln und fassen alles zusammen. Sie haben einen festen Ansprechpartner und eine Rechnung mit einer Position je Standort.</p>
-        <a class="textlink" href="#pruefen">Gruppenangebot anfragen</a>
+        <a class="textlink" href="#pruefen" data-standorte="2-5">Gruppenangebot anfragen</a>
       </div>
       <div class="vis">
         <div class="wrapv">
@@ -629,6 +667,75 @@ footer .in { padding-block: 64px; }
   </div>
 </section>
 
+<section class="sheet light" id="pruefen" style="margin-top:0;border-radius:0;border-top:1px solid var(--border)">
+  <div class="pattern dots-light" aria-hidden="true"></div>
+  <div class="inner px">
+    <div class="split">
+      <div class="txt">
+        <span class="label primary">Kostenlose Prüfung</span>
+        <h2 class="h2" style="margin-top:16px"><span class="grad">Wir prüfen Ihr Profil. </span><span>Sie entscheiden.</span></h2>
+        <p class="sub">Nennen Sie uns Ihren Betrieb. Wir lesen Ihr Google-Profil aus und schicken Ihnen per E-Mail, welche Bewertungen einen Löschgrund haben und was das kostet.</p>
+        <ol class="lsteps">
+          <li><span class="n">1</span><span><b>Anfrage senden.</b> Dauert keine Minute, ohne Zugang zu Ihrem Profil.</span></li>
+          <li><span class="n">2</span><span><b>Ergebnis per E-Mail.</b> Mit den konkreten Bewertungen und Ihrem Stufenpreis.</span></li>
+          <li><span class="n">3</span><span><b>Nur bei Erfolg zahlen.</b> Abgelehnte Anträge kosten nichts.</span></li>
+        </ol>
+      </div>
+      <div class="vis">
+        <div class="wrapv">
+          <div class="whitecard">
+            <form class="lf" id="lead-form" novalidate>
+              <label class="f">Name des Betriebs
+                <input type="text" name="betrieb" autocomplete="organization" required maxlength="200" placeholder="z. B. Trattoria Roma">
+              </label>
+              <div class="two">
+                <label class="f">Ort
+                  <input type="text" name="ort" autocomplete="address-level2" maxlength="200" placeholder="z. B. Köln">
+                </label>
+                <label class="f"><span>Google-Maps-Link <small>(optional)</small></span>
+                  <input type="url" name="googleLink" inputmode="url" maxlength="1000" placeholder="https://maps.app.goo.gl/…">
+                </label>
+              </div>
+              <div class="two">
+                <label class="f">Ihr Name
+                  <input type="text" name="name" autocomplete="name" required maxlength="120">
+                </label>
+                <label class="f">E-Mail
+                  <input type="email" name="email" autocomplete="email" required maxlength="200">
+                </label>
+              </div>
+              <label class="f"><span>Telefon <small>(optional)</small></span>
+                <input type="tel" name="telefon" autocomplete="tel" maxlength="60">
+              </label>
+              <fieldset>
+                <legend>Anzahl Standorte</legend>
+                <div class="seg">
+                  <input type="radio" name="standorte" id="st-1" value="1" checked><label for="st-1">1</label>
+                  <input type="radio" name="standorte" id="st-2" value="2-5"><label for="st-2">2 bis 5</label>
+                  <input type="radio" name="standorte" id="st-3" value="6+"><label for="st-3">6 und mehr</label>
+                </div>
+              </fieldset>
+              <label class="f"><span>Nachricht <small>(optional)</small></span>
+                <textarea name="nachricht" maxlength="3000" placeholder="z. B. welche Bewertungen Sie besonders stören"></textarea>
+              </label>
+              <label class="check"><input type="checkbox" name="antwortService"> <span>Der Antwort-Service interessiert mich auch.</span></label>
+              <div class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+              <p class="err" id="lead-err" role="alert"></p>
+              <button class="pill send" type="submit">Kostenlose Prüfung anfragen <span class="arr">&rarr;</span></button>
+              <p class="legal">Mit dem Absenden stimmen Sie zu, dass wir Ihre Angaben zur Bearbeitung der Anfrage verwenden. Details in der <a href="/datenschutz">Datenschutzerklärung</a>.</p>
+            </form>
+            <div class="lf-done" id="lead-done" hidden>
+              <div class="ok" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <h3>Danke, Ihre Anfrage ist da.</h3>
+              <p>Wir prüfen jetzt Ihr Google-Profil und melden uns per E-Mail mit dem Ergebnis. Eine Bestätigung ist schon unterwegs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="faq" id="faq">
   <div class="px">
     <div class="center"><h2 class="h2"><span class="grad">Häufig gestellte </span><span>Fragen.</span></h2></div>
@@ -652,7 +759,7 @@ footer .in { padding-block: 64px; }
   <div class="in px">
     <h2>Starten Sie kostenlos und ohne Risiko.</h2>
     <p>Wir prüfen Ihr Google-Profil auf Bewertungen mit Löschgrund. Sie zahlen erst, wenn eine tatsächlich gelöscht wurde.</p>
-    <div class="btnrow"><a class="pill white" href="#top">Kostenlose Prüfung starten <span class="arr">&rarr;</span></a></div>
+    <div class="btnrow"><a class="pill white" href="#pruefen">Kostenlose Prüfung starten <span class="arr">&rarr;</span></a></div>
   </div>
 </section>
 </main>
@@ -761,6 +868,50 @@ footer .in { padding-block: 64px; }
         if (!open) { qa.classList.add('open'); this.setAttribute('aria-expanded', 'true'); }
       });
     });
+  });
+})();
+
+(function () {
+  var form = document.getElementById('lead-form');
+  if (!form) return;
+  var err = document.getElementById('lead-err');
+  var done = document.getElementById('lead-done');
+  var btn = form.querySelector('.send');
+
+  document.querySelectorAll('a[data-standorte]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var r = form.querySelector('input[name="standorte"][value="' + a.getAttribute('data-standorte') + '"]');
+      if (r) r.checked = true;
+    });
+  });
+
+  function val(name) { var el = form.elements[name]; return el && el.value ? el.value.trim() : ''; }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    err.textContent = '';
+    if (val('website')) { form.hidden = true; done.hidden = false; return; }
+    if (!val('betrieb') || !val('name') || !val('email')) { err.textContent = 'Bitte Betrieb, Ihren Namen und Ihre E-Mail angeben.'; return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('email'))) { err.textContent = 'Bitte eine gültige E-Mail-Adresse angeben.'; return; }
+    if (!val('ort') && !val('googleLink')) { err.textContent = 'Bitte den Ort oder den Google-Maps-Link angeben, damit wir Ihr Profil finden.'; return; }
+    var standorte = form.querySelector('input[name="standorte"]:checked');
+    var payload = {
+      betrieb: val('betrieb'), ort: val('ort'), googleLink: val('googleLink'), name: val('name'),
+      email: val('email'), telefon: val('telefon'), nachricht: val('nachricht'),
+      standorte: standorte ? standorte.value : '1', antwortService: form.elements.antwortService.checked
+    };
+    btn.disabled = true;
+    fetch('/api/anfrage', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok && j.ok, j: j }; }); })
+      .then(function (res) {
+        if (!res.ok) throw new Error((res.j && res.j.reason) || 'fehler');
+        form.hidden = true; done.hidden = false;
+        done.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      })
+      .catch(function () {
+        btn.disabled = false;
+        err.innerHTML = 'Das hat leider nicht geklappt. Bitte versuchen Sie es noch einmal oder schreiben Sie uns an <a href="mailto:info@webwerk-design.de" style="text-decoration:underline">info@webwerk-design.de</a>.';
+      });
   });
 })();
 </script>

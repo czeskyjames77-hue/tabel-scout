@@ -4,7 +4,7 @@ Landingpage von table-scout by Webwerk: Bewertungslöschung und Antwort-Service 
 
 Statische Seite ohne Build-Schritt. Einzige Server-Funktion: `api/anfrage.js`.
 
-Vercel-Env im Projekt `table-scout`: `WEBSITE_FUNNEL_API_KEY` (derselbe Wert wie im Webwerk-Backend), optional `WEBWERK_ANFRAGE_URL`.
+Vercel-Env im Projekt `table-scout`: `TABLESCOUT_FORM_API_KEY` (derselbe Wert wie im Webwerk-Backend-Projekt `webwerk-site`), optional `WEBWERK_ANFRAGE_URL`.
 
 | Datei | Inhalt |
 | --- | --- |

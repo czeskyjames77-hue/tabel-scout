@@ -1,5 +1,5 @@
 // Formular-Weiterleitung an das Webwerk-Backend. Der Schluessel
-// (WEBSITE_FUNNEL_API_KEY) liegt nur in den Vercel-Env-Variablen dieses
+// (TABLESCOUT_FORM_API_KEY) liegt nur in den Vercel-Env-Variablen dieses
 // Projekts und nie im HTML.
 const TARGET = process.env.WEBWERK_ANFRAGE_URL || 'https://app.webwerk-design.de/api/table-scout/anfrage'
 const FIELDS = ['betrieb', 'ort', 'googleLink', 'name', 'email', 'telefon', 'nachricht', 'standorte']
@@ -9,7 +9,7 @@ module.exports = async function handler(req, res) {
     res.setHeader('Allow', 'POST')
     return res.status(405).json({ ok: false, reason: 'method_not_allowed' })
   }
-  const key = process.env.WEBSITE_FUNNEL_API_KEY
+  const key = process.env.TABLESCOUT_FORM_API_KEY
   if (!key) return res.status(503).json({ ok: false, reason: 'not_configured' })
 
   let body = req.body

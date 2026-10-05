@@ -177,7 +177,7 @@ nav.top .in { display: flex; height: 64px; align-items: center; justify-content:
 .gp-chips .chip.enter { opacity: 0; transform: translateX(16px); filter: blur(4px); }
 .gp-card { background: #fff; border-radius: 24px; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 25px 50px -12px rgba(0, 0, 0, 0.25); overflow: hidden; }
 .gp-photo { position: relative; height: 176px; overflow: hidden; background: #2A2320; }
-.gp-photo svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.gp-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 60%; }
 .gp-photo .shade { position: absolute; inset-inline: 0; bottom: 0; height: 96px; background: linear-gradient(to top, rgba(18, 26, 42, 0.85) 0%, rgba(18, 26, 42, 0.1) 70%, transparent 100%); }
 .gp-photo .cap { position: absolute; left: 16px; bottom: 12px; color: #fff; font-size: 14px; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4); }
 .gp-photo .cap p:first-child { font-weight: 500; }
@@ -460,21 +460,7 @@ footer .in { padding-block: 64px; }
         <div class="gp-chips" id="chips" aria-hidden="true"></div>
         <div class="gp-card">
           <div class="gp-photo">
-            <svg viewBox="0 0 400 176" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-              <defs>
-                <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4A3A2E"/><stop offset="1" stop-color="#2A211B"/></linearGradient>
-                <radialGradient id="lamp" cx="0.5" cy="0" r="0.8"><stop offset="0" stop-color="#FFD7A0" stop-opacity="0.55"/><stop offset="1" stop-color="#FFD7A0" stop-opacity="0"/></radialGradient>
-              </defs>
-              <rect width="400" height="176" fill="url(#wall)"/>
-              <rect x="0" y="0" width="400" height="10" fill="#1C1612"/>
-              <g fill="#1C1612" opacity="0.55"><rect x="30" y="20" width="4" height="156"/><rect x="130" y="20" width="4" height="156"/><rect x="230" y="20" width="4" height="156"/><rect x="330" y="20" width="4" height="156"/></g>
-              <g><circle cx="80" cy="36" r="46" fill="url(#lamp)"/><circle cx="180" cy="36" r="46" fill="url(#lamp)"/><circle cx="280" cy="36" r="46" fill="url(#lamp)"/><circle cx="370" cy="36" r="46" fill="url(#lamp)"/></g>
-              <g fill="#FFE2B8"><circle cx="80" cy="34" r="4"/><circle cx="180" cy="34" r="4"/><circle cx="280" cy="34" r="4"/><circle cx="370" cy="34" r="4"/></g>
-              <g stroke="#1C1612" stroke-width="1.5"><line x1="80" y1="10" x2="80" y2="30"/><line x1="180" y1="10" x2="180" y2="30"/><line x1="280" y1="10" x2="280" y2="30"/><line x1="370" y1="10" x2="370" y2="30"/></g>
-              <rect x="0" y="118" width="400" height="58" fill="#3A2B20"/>
-              <g fill="#5C4431"><rect x="40" y="104" width="90" height="10" rx="2"/><rect x="170" y="104" width="90" height="10" rx="2"/><rect x="300" y="104" width="90" height="10" rx="2"/></g>
-              <g fill="#E9D2A6" opacity="0.8"><rect x="62" y="92" width="7" height="12" rx="1.5"/><rect x="96" y="90" width="7" height="14" rx="1.5"/><rect x="200" y="92" width="7" height="12" rx="1.5"/><rect x="226" y="90" width="7" height="14" rx="1.5"/><rect x="330" y="92" width="7" height="12" rx="1.5"/></g>
-            </svg>
+            <img src="/img/brauhaus.jpg" width="880" height="388" alt="" loading="eager" decoding="async">
             <div class="shade"></div>
             <div class="cap"><p>Brauhaus am Markt</p><p>Köln · Altstadt</p></div>
           </div>

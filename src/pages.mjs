@@ -1,0 +1,210 @@
+export const button = (
+  text = "Betrieb kostenlos prüfen",
+  service = "",
+  extra = "",
+) =>
+  `<button class="button" type="button" data-inquiry="${service}" ${extra}>${text}</button>`;
+export const picture = (name, alt, cls = "", eager = false) =>
+  `<img class="${cls}" src="/assets/images/${name}-1280.webp" srcset="/assets/images/${name}-640.webp 640w, /assets/images/${name}-1280.webp 1280w, /assets/images/${name}-1920.webp 1920w" sizes="(max-width: 700px) 100vw, ${cls.includes("full") ? "100vw" : "(max-width: 1100px) 80vw, 50vw"}" alt="${alt}" width="1280" height="853" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`;
+const eyebrow = (t) => `<p class="eyebrow">${t}</p>`;
+const faq = (items) =>
+  `<section class="section faq"><div>${eyebrow("Ihre Fragen")}<h2>Gut zu wissen.</h2></div><div class="faq-list">${items.map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join("")}</div></section>`;
+export const proof = () =>
+  `<section class="section proof" id="ergebnisse"><div class="section-kicker">${eyebrow("Aus der Webwerk-Familie / Echte Gastro-Ergebnisse")}${eyebrow("01 / Irish Castle Pub, Nürnberg")}</div><div class="proof-grid"><div><p class="big-number">+88 %</p><h2 class="smaller">Mehr Interaktionen.<br>Mehr Interesse am Pub.</h2><p>Das Google-Profil des Irish Castle Pub wurde optimiert; parallel wurden Bewertungen beantwortet.</p></div><figure class="chart"><figcaption class="eyebrow">Profilinteraktionen / Monat</figcaption><div class="bars"><div><strong>531</strong><span class="bar before"></span><span class="eyebrow">Ø Juni–August 2026</span></div><div><strong>997</strong><span class="bar after"></span><span class="eyebrow">September 2026</span></div></div></figure></div><div class="proof-second"><div>${eyebrow("Auch bei Hotline 5 Smash Burger / Wien")}<p>Profilaufrufe gegenüber dem Vorjahr</p></div><strong>+120,4 %</strong>${eyebrow("September 2026 / 2025")}</div><details class="evidence"><summary>Zeiträume &amp; Auswertung</summary><p>Quelle: Webwerk-Auswertung vom 06.10.2026, Leistungsberichte der Google-Unternehmensprofile. Irish Castle: September gegenüber dem Monatsdurchschnitt Juni bis August 2026. Hotline 5: September 2026 gegenüber September 2025. Bei beiden Betrieben liefen Profiloptimierung und Bewertungsantworten parallel. Die ausgewählten Entwicklungen sind Kundenbeispiele, keine Ergebnisgarantie.</p></details></section>`;
+const tiers = [
+  ["10–24", "19"],
+  ["25–49", "15"],
+  ["50–99", "12"],
+  ["Ab 100", "9"],
+];
+const numberControl = (id, label, value, sub = "") =>
+  `<div class="number-row"><label for="${id}">${label}${sub ? `<small>${sub}</small>` : ""}</label><div class="stepper"><button type="button" data-step="-1" data-for="${id}" aria-label="${label}: weniger">−</button><input id="${id}" type="number" min="0" max="10000" step="1" value="${value}" inputmode="numeric"><button type="button" data-step="1" data-for="${id}" aria-label="${label}: mehr">+</button></div></div>`;
+export const pages = {
+  home: {
+    path: "/",
+    title:
+      "Google-Bewertungen & Profilmanagement für die Gastronomie | table-scout",
+    description:
+      "Guter Service verdient einen guten Ruf. table-scout prüft Google-Bewertungen, optimiert Ihr Gastro-Profil und übernimmt die laufende Betreuung. Jetzt kostenlos prüfen.",
+    service: "",
+    footer: [
+      "SIE KÜMMERN SICH<br>UM IHRE GÄSTE.",
+      "Wir kümmern uns um Ihren Auftritt bei Google.",
+    ],
+    content: `<section class="home-hero"><div class="section hero-heading"><h1>VOLLER EINSATZ.<br>GUTER RUF.</h1><div>${eyebrow("Für die Gastronomie.")}<p>Sie geben jeden Tag alles.<br>Wir sorgen dafür, dass Ihr<br>Google-Profil dazu passt.</p><p class="eyebrow blue">Bewertungen / Sichtbarkeit<br>Laufende Betreuung</p></div></div><div class="hero-photo">${picture("kitchen-team", "Ein Küchenteam bereitet gemeinsam den Service vor", "full", true)}<div class="hero-ticket">${eyebrow("Ihr Service für Google")}<h2>Der passende<br>erste Schritt.</h2><ol><li>Bewertungen prüfen</li><li>Profil optimieren</li><li>Dauerhaft betreuen</li></ol>${button()}</div></div><div class="hero-caption"><span>Restaurants / Cafés / Bars / Hotels</span><span>Eine Marke von Webwerk</span></div></section>
+<section class="section service-menu" id="leistungen"><div class="section-heading"><h2>Was braucht<br>Ihr Betrieb?</h2>${eyebrow("Unsere Servicekarte<br>Einzeln oder zusammen.")}</div><a class="service-row" href="/bewertungen-loeschen"><span class="eyebrow">01</span><h3>Bewertungen löschen</h3><p>Unberechtigte Rezensionen prüfen, begründet einreichen und nachhalten.</p><div><strong>ab 9 €</strong><small>je erfolgreicher Löschung¹</small></div></a><a class="service-row" href="/profiloptimierung"><span class="eyebrow">02</span><h3>Google-Profil optimieren</h3><p>Ihre Küche, Ihre Besonderheiten, Ihr Betrieb. So aufbereitet, dass Gäste sich orientieren können.</p><div><strong>Individuell</strong><small>einmaliges Angebot nach Profil-Check</small></div></a><a class="service-row" href="/partnerprogramm"><span class="eyebrow">03</span><h3>Partner werden</h3><p>Neue Rezensionen beantworten, Löschungen prüfen und das Profil laufend betreuen.</p><div><strong>ab 39 €</strong><small>monatlich kündbar¹</small></div></a><p class="fine">¹ Löschpreis ab 100 beauftragten Bewertungen. Abo bis 5 neue Bewertungen / Monat. Alle Preise zzgl. MwSt.</p></section>
+${proof()}
+<section class="split-story">${picture("kitchen-service", "Köche arbeiten konzentriert an der Ausgabe einer Restaurantküche")}<div>${eyebrow("Das Partnerprogramm")}<h2>DIE NÄCHSTE<br>BEWERTUNG<br>KOMMT.<br><span class="blue">WIR SIND<br>SCHON DA.</span></h2><p>Neue Rezensionen, neue Öffnungszeiten, eine andere Karte. Ihr Betrieb entwickelt sich weiter. Wir halten Ihren Google-Auftritt mit Ihnen auf Kurs.</p><a class="button" href="/partnerprogramm">Partnerprogramm entdecken</a></div></section>`,
+  },
+  deletion: {
+    path: "/bewertungen-loeschen",
+    title: "Google-Bewertungen löschen lassen für Gastronomie | table-scout",
+    description:
+      "Unberechtigte Google-Bewertungen prüfen lassen. Kostenlose Erstprüfung, klare Mengenpreise ab 9 € und Abrechnung nur bei erfolgreicher Löschung.",
+    service: "deletion",
+    footer: [
+      "EIN FAIRER AUFTRITT.<br>FÜR IHREN BETRIEB.",
+      "Der erste Schritt ist eine kostenlose Prüfung.",
+    ],
+    content: `<section class="deletion-hero">${picture("kitchen-service", "Restaurantteam während des Küchenservice", "full", true)}<div class="photo-scrim"></div><div class="section">${eyebrow("Google-Bewertungen / Einmalige Bereinigung")}<h1>GUTE ARBEIT.<br>FALSCH BEWERTET?</h1><p>Wir prüfen unberechtigte Rezensionen und kümmern uns um begründete Löschanträge. Damit einzelne Bewertungen nicht das falsche Bild hinterlassen.</p>${button("Bewertungen kostenlos prüfen", "deletion")}<p class="eyebrow hero-bottom">Nur bei Erfolg zahlen. Kein Abo erforderlich.</p></div></section>
+<section class="section grounds"><div>${eyebrow("Erfahrung aus der Webwerk-Familie")}<p class="big-number">2.522</p><h2 class="smaller">Bewertungen erfolgreich<br>gelöscht.</h2><p>Wir kennen die Abläufe und prüfen jeden Fall einzeln. Entscheidend ist ein begründeter Anlass.</p></div><div>${eyebrow("Was eine Prüfung sinnvoll macht")}<article class="ledger"><h3>Kein echter Besuch.</h3><p>Die Rezension beschreibt eine Erfahrung, die sich keinem Besuch oder Kontakt mit Ihrem Betrieb zuordnen lässt.</p></article><article class="ledger"><h3>Grenzen überschritten.</h3><p>Beleidigungen, persönliche Angriffe oder irreführende Inhalte können Anlass für eine Prüfung sein.</p></article><article class="ledger"><h3>Der Verdacht auf Manipulation.</h3><p>Zum Beispiel Spam, ein erkennbarer Interessenkonflikt oder auffällige Mehrfachbewertungen.</p></article><p class="fine">Berechtigte Kritik gehört dazu. Eine niedrige Sternezahl allein ist kein Löschgrund; über eine Entfernung entscheidet Google.</p></div></section>
+<section class="section pricing-section" id="preise"><div class="section-heading"><h2>Ein klarer Preis.<br>Nur bei Erfolg.</h2>${eyebrow("Einmalig / Ohne Abo")}</div><div class="two-col"><div><p>Der Stückpreis richtet sich nach der Zahl der beauftragten Bewertungen. Sie zahlen ausschließlich für erfolgreich gelöschte Rezensionen.</p><div class="price-table"><div class="eyebrow"><span>Beauftragte Bewertungen</span><span>Je erfolgreicher Löschung</span></div>${tiers.map(([range, price]) => `<div><span>${range}</span><strong>${price} €</strong></div>`).join("")}</div><p class="fine">Regulär ab 10 Bewertungen. Weniger als 10? Wir prüfen Ihren Fall individuell. Alle Preise zzgl. MwSt.</p></div><div class="receipt deletion-calculator">${eyebrow("Ihr Kostenbeispiel")}${numberControl("requested", "Beauftragte Bewertungen", 60)}${numberControl("successful", "Davon erfolgreich gelöscht", 40)}<div class="receipt-total"><output id="deletion-total">480 €</output><span>Gesamtbetrag<br>zzgl. MwSt.</span></div><p id="deletion-detail">40 erfolgreiche Löschungen × 12 €. Für die 20 übrigen Bewertungen: 0 €.</p><p class="fine" id="deletion-minimum" hidden>Bei weniger als 10 Bewertungen erstellen wir ein individuelles Angebot.</p>${button("Meine Bewertungen prüfen", "deletion", "data-deletion-quote")}</div></div></section>
+<section class="section image-story">${picture("open-kitchen", "Ein Koch bei der Zubereitung in einer offenen Restaurantküche", "open-kitchen")}<div>${eyebrow("Von der Prüfung zum Ergebnis")}<h2>SIE BLEIBEN<br>GASTGEBER.</h2><p>Wir kümmern uns um den Ablauf. Sie haben einen festen Ansprechpartner und behalten die Entscheidung.</p><ol class="steps"><li><h3>Profil nennen</h3><p>Name und Ort oder Ihr Maps-Link reichen für den kostenlosen Einstieg.</p></li><li><h3>Auftrag freigeben</h3><p>Sie sehen die prüfbaren Fälle und Ihren Preis, bevor wir starten.</p></li><li><h3>Ergebnis verfolgen</h3><p>Wir begründen die Anträge und halten die Bearbeitung nach. Den Stand sehen Sie auf Ihrer persönlichen Seite.</p></li></ol></div></section>
+${faq([
+  [
+    "Was passiert, wenn Google nicht löscht?",
+    "Dann zahlen Sie für diesen Fall keine Löschgebühr. Eine Entfernung hängt von den Umständen der Rezension und Googles Prüfung ab.",
+  ],
+  [
+    "Wie lange dauert die Bearbeitung?",
+    "Die Dauer hängt von Googles Prüfung ab. Nach der Einreichung halten wir den Bearbeitungsstand nach und informieren Sie über das Ergebnis. Einen festen Löschtermin können wir nicht zusagen.",
+  ],
+  [
+    "Muss ich ein Abo abschließen?",
+    "Nein. Die einmalige Bereinigung ist eine eigenständige Leistung. Ein laufendes Partnerprogramm ist optional.",
+  ],
+  [
+    "Und wenn neue Bewertungen dazukommen?",
+    'Im <a href="/partnerprogramm">Partnerprogramm</a> prüfen wir neue negative Rezensionen, beantworten neue Bewertungen und pflegen Ihr Google-Profil. Bereits vorhandene Bewertungen werden getrennt abgerechnet.',
+  ],
+])}`,
+  },
+  profile: {
+    path: "/profiloptimierung",
+    title: "Google-Profil optimieren für Restaurants & Cafés | table-scout",
+    description:
+      "Machen Sie Ihr Restaurant, Café oder Ihre Bar schon bei Google erlebbar. Profiloptimierung, klare Leistungen und bessere Kontaktwege. Kostenloser Profil-Check.",
+    service: "profile",
+    footer: [
+      "MEHR VON IHREM BETRIEB.<br>SCHON BEI GOOGLE.",
+      "Einmalig optimieren oder dauerhaft begleiten lassen.",
+    ],
+    content: `<section class="section profile-hero"><div>${eyebrow("Lokale Sichtbarkeit / Google-Profil")}<h1>GUT GEFUNDEN.<br>GERN BESUCHT.</h1><p class="lead">Zeigen Sie schon bei Google, was Gäste bei Ihnen erwartet: Ihre Küche, Ihre Atmosphäre und den einfachsten Weg zum nächsten Besuch.</p><p>Wir prüfen Ihren Auftritt im lokalen Umfeld, arbeiten Ihr Angebot heraus und optimieren Ihr Unternehmensprofil.</p>${button("Google-Profil prüfen lassen", "profile")}<p class="eyebrow fine">Einmalig buchbar / Auch im Partnerprogramm</p></div><div class="profile-example"><p class="eyebrow">Beispielprofil / Ihr digitaler erster Eindruck</p>${picture("komorebi-interior", "Lichtdurchfluteter Gastraum eines Cafés", "", true)}<div><h2>Café am Markt</h2><p class="fine">Café · Frühstück · Saisonale Küche</p><p>Guter Kaffee am Morgen. Frische Küche am Mittag. Ein Platz für die kleine Pause.</p><div class="profile-hours"><span>Heute geöffnet</span><span>08:00 – 18:00 Uhr</span></div><div class="profile-actions" aria-label="Beispielhafte Kontaktwege"><span>Speisekarte</span><span>Reservieren</span><span>Route</span></div></div></div></section>
+${proof()}
+<section class="section image-story profile-story"><div>${eyebrow("Google-Unternehmensprofil optimieren")}<h2>IHR BETRIEB.<br>KLAR AUF<br>DEN PUNKT.</h2><p>Sie müssen sich nicht durch Google-Einstellungen arbeiten. Wir bringen Struktur in Ihren Auftritt und stimmen die Umsetzung mit Ihnen ab.</p><article class="ledger"><h3>Was wir herausarbeiten</h3><p>Was Ihren Betrieb ausmacht, für welche Gäste er relevant ist und wie er im lokalen Umfeld verständlich sichtbar wird.</p></article><article class="ledger"><h3>Was Sie erhalten</h3><p>Eine abgestimmte Optimierung von Beschreibung, Leistungen, Profilangaben und Kontaktwegen. Bilder und Kategorien betrachten wir im Zusammenhang mit Ihrem Angebot.</p></article><article class="ledger"><h3>Wie wir starten</h3><p>Nach dem kostenlosen Profil-Check erhalten Sie ein konkretes Angebot. Leistungsumfang, Preis und Umsetzung stehen vor Ihrer Entscheidung fest.</p></article></div>${picture("chef-plating", "Ein Koch richtet einen Teller sorgfältig am Pass an")}</section>
+${faq([
+  [
+    "Was kostet die einmalige Profiloptimierung?",
+    "Sie erhalten nach dem kostenlosen Profil-Check ein individuelles Angebot. Wir stimmen Umfang und Umsetzung vor der Beauftragung mit Ihnen ab.",
+  ],
+  [
+    "Brauche ich dafür eine neue Website?",
+    "Nein. Wir arbeiten mit Ihrem bestehenden Auftritt und prüfen, ob Gäste Ihre Speisekarte, Reservierung und Kontaktmöglichkeiten gut erreichen können.",
+  ],
+  [
+    "Kann ich auch dauerhaft betreut werden?",
+    'Ja. Profilpflege und Optimierung gehören zu unserem <a href="/partnerprogramm">Partnerprogramm</a>. Dazu kommen Antworten auf neue Bewertungen und die Prüfung neuer negativer Rezensionen.',
+  ],
+  [
+    "Garantieren Sie eine bestimmte Platzierung?",
+    "Nein. Die Platzierung bestimmt Google anhand verschiedener Faktoren, etwa Relevanz, Entfernung und Bekanntheit. Wir verbessern die Grundlage Ihres Auftritts und machen die vereinbarten Änderungen nachvollziehbar.",
+  ],
+])}`,
+  },
+  partner: {
+    path: "/partnerprogramm",
+    title: "Profilmanagement für Gastronomie ab 39 € / Monat | table-scout",
+    description:
+      "Google-Profilpflege, Bewertungsantworten und Prüfung neuer negativer Rezensionen in einem Paket. Monatlich kündbar. Ermitteln Sie Ihren Beitrag im Preisrechner.",
+    service: "management",
+    footer: [
+      "FÜR DEN SERVICE.<br>UND ALLES DANACH.",
+      "Lassen Sie uns das passende Paket für Ihren Betrieb finden.",
+    ],
+    content: `<section class="section partner-hero">${eyebrow("Partnerprogramm / Profilmanagement im Abo")}<div class="partner-intro"><h1>WIR BLEIBEN<br>DRAN.</h1><div><p class="lead">Ihr Betrieb steht nicht still.<br>Ihr Google-Profil sollte es auch nicht.</p><p>Neue Bewertungen, Antworten und Profilpflege. Ein fester Ansprechpartner. Monatlich kündbar.</p><a class="button" href="#preisrechner">Meinen Monatsbeitrag ermitteln</a></div></div><div class="photo-band">${picture("kitchen-team", "Zusammenarbeit im Küchenteam", "", true)}${picture("barista-service", "Ein Barista bei der Arbeit an der Espressomaschine")}</div></section>
+<section class="section management-calculator" id="preisrechner"><div class="section-heading"><h2>Ein Beitrag,<br>der zu Ihnen passt.</h2>${eyebrow("Preisrechner / Ihr Beispiel<br>Monatlich kündbar")}</div><div class="calculator-grid"><div>${eyebrow("01 / Wie viele neue Bewertungen kommen pro Monat?")}${numberControl("positive", "Positive Bewertungen", 20, "4–5 Sterne")}${numberControl("negative", "Negative Bewertungen", 4, "1–3 Sterne")}<p id="monthly-total">24 neue Bewertungen insgesamt. Für die Preisstufe zählen alle Sterne zusammen.</p><button class="text-button" data-inquiry="management">Ich kenne meine Zahl nicht · Profil prüfen lassen</button><div class="old-reviews">${eyebrow("02 / Auch bestehende Bewertungen prüfen?")}<label class="check"><input type="checkbox" id="include-existing" checked><span>Ja, einmalige Bereinigung mit anfragen</span></label><div id="existing-control">${numberControl("existing", "Bestehende negative Bewertungen", 60)}</div><p class="fine">Einmalige Löschkosten und Monatsbeitrag bleiben getrennt. Das Abo deckt Bewertungen ab, die nach dem Start neu dazukommen.</p></div></div><div class="receipt management-receipt" aria-label="Ihre Paketübersicht">${eyebrow("Table-scout / Ihr Paket")}<h3><span id="receipt-count">24</span> neue<br>Bewertungen.</h3><p class="eyebrow blue" id="receipt-tier">Stufe: 16–30 Bewertungen / Monat</p><div class="receipt-total"><output id="monthly-price">99 €</output><span>/ Monat</span></div><ul class="check-list"><li>Prüfung &amp; Löschanträge für neue negative Rezensionen</li><li>Antworten auf alle neuen Bewertungen</li><li>Profilpflege &amp; Optimierung</li><li>QR-Code, Tischaufsteller &amp; Karten</li></ul><div id="existing-receipt" class="receipt-existing"><div><span class="eyebrow">Bestehende Bewertungen</span><p><span id="receipt-existing-count">60</span> Fälle zur Prüfung</p></div><div><strong id="receipt-existing-unit">12 €</strong><small>/ erfolgreicher Löschung</small></div></div><p class="fine">Preise zzgl. MwSt. · Profil-Check vor Angebot.<br>Die Anfrage schließt noch kein Abo ab.</p>${button("Dieses Paket anfragen", "management", "data-management-quote")}<p id="calculator-announcement" class="sr-only" aria-live="polite"></p></div></div></section>
+<section class="section abo-tiers">${eyebrow("Die vier Abo-Stufen / Neue Bewertungen pro Monat")}<div>${[
+      ["Bis 5", "39"],
+      ["6–15", "69"],
+      ["16–30", "99"],
+      ["Über 30", "149"],
+    ]
+      .map(
+        ([range, price]) =>
+          `<article>${eyebrow(range + " Bewertungen")}<h3>${price} €</h3><p>pro Monat zzgl. MwSt.</p></article>`,
+      )
+      .join(
+        "",
+      )}</div><p>Der Umfang ist in jeder Stufe gleich. Ändert sich Ihr Bewertungsaufkommen dauerhaft, legen wir die passende Stufe zugrunde. Mehrere Standorte betrachten wir einzeln.</p></section>
+<section class="partner-photo">${picture("pass-team", "Küchenteam beim Anrichten und Abstimmen der nächsten Gerichte", "full")}<div>${eyebrow("Ihr Alltag läuft weiter.")}<h2>WIR HALTEN<br>IHNEN DEN<br>RÜCKEN FREI.</h2></div></section>
+<section class="section included"><h2>In jeder Stufe dabei.</h2>${[
+      [
+        "Neue Bewertungen im Blick",
+        "Neue negative Rezensionen werden geprüft. Liegt ein begründeter Anlass vor, beantragen wir die Löschung. Im Abo entstehen dafür keine zusätzlichen Kosten pro Fall.",
+      ],
+      [
+        "Antworten mit Haltung",
+        "Wir beantworten neue Rezensionen in Ihrem Namen und passend zu Ihrem Betrieb. Lob erhält eine persönliche Antwort, sachliche Kritik eine angemessene Reaktion.",
+      ],
+      [
+        "Ein aktuelles Google-Profil",
+        "Profilpflege und Optimierung gehören dazu. Informationen und Inhalte sollen auch dann zum Betrieb passen, wenn sich im Alltag etwas ändert.",
+      ],
+      [
+        "Gäste um Feedback bitten",
+        "QR-Code, Tischaufsteller und Karten erleichtern Ihren Gästen den Weg zur Bewertung. So regen Sie authentisches Feedback im Betrieb an.",
+      ],
+    ]
+      .map(
+        ([h, p], i) =>
+          `<article><span class="eyebrow">0${i + 1}</span><h3>${h}</h3><p>${p}</p></article>`,
+      )
+      .join("")}</section>
+${faq([
+  [
+    "Sind bestehende negative Bewertungen im Abo enthalten?",
+    "Nein. Bereits vorhandene negative Bewertungen werden separat geprüft und nur bei erfolgreicher Löschung berechnet. Das Abo gilt für neue Bewertungen ab dem vereinbarten Start.",
+  ],
+  [
+    "Wie ermitteln Sie meinen Monatsbeitrag?",
+    "Es zählen alle neuen Bewertungen pro Monat, unabhängig von der Sternezahl. Unser Rechner zeigt Ihnen die passende Preisstufe. Wir prüfen das tatsächliche Aufkommen Ihres Profils, bevor Sie das Angebot freigeben.",
+  ],
+  [
+    "Brauchen Sie Zugriff auf mein Google-Profil?",
+    "Für Antworten und Profilpflege laden Sie uns als Verwalter zu Ihrem Unternehmensprofil ein. Ihr Passwort bleibt bei Ihnen; Sie behalten die Inhaberschaft. Für den ersten Check ist kein Zugriff erforderlich.",
+  ],
+  [
+    "Kann ich monatlich kündigen?",
+    "Ja. Das Partnerprogramm ist monatlich kündbar. Beginn, Leistungsumfang und Kündigungsbedingungen halten wir im Angebot für Sie fest.",
+  ],
+  [
+    "Wie funktioniert es bei mehreren Standorten?",
+    "Wir prüfen das Bewertungsaufkommen und den Bedarf jedes Standorts einzeln. Sie erhalten ein abgestimmtes Angebot für Ihre Betriebe und einen gemeinsamen Ansprechpartner.",
+  ],
+])}`,
+  },
+};
+
+pages.about = {
+  path: "/ueber-uns",
+  title: "Über table-scout | Gastro im Fokus. Webwerk im Rücken.",
+  description:
+    "table-scout ist die Gastro-Marke von Webwerk. Sechs Jahre Erfahrung mit lokalem SEO und Google-Auffindbarkeit, ein persönlicher Ansprechpartner und klare Leistungen.",
+  service: "advice",
+  footer: [
+    "LASSEN SIE UNS<br>INS GESPRÄCH KOMMEN.",
+    "Ein kurzer Blick auf Ihr Profil. Ein konkreter nächster Schritt.",
+  ],
+  content: `<section class="section about-hero">${eyebrow("Über Table-scout / Eine Marke von Webwerk")}<h1>GASTRO IM FOKUS.<br><span class="blue">WEBWERK<br>IM RÜCKEN.</span></h1><div class="about-intro"><p class="lead">Gute Gastgeber kümmern sich um ihre Gäste. Wir kümmern uns darum, wie ihr Betrieb bei Google wahrgenommen wird.</p><p>Table-scout bündelt die Erfahrung von Webwerk für Restaurants, Cafés, Bars und Hotels: von der Prüfung unberechtigter Bewertungen über die Profiloptimierung bis zur laufenden Betreuung.</p></div></section>
+<section class="section about-person"><div>${eyebrow("Ihr Ansprechpartner")}<h2>GUTER SERVICE<br>BEGINNT MIT<br>EINEM GESPRÄCH.</h2><h3>Markus Weber</h3><p class="eyebrow blue">Vertrieb &amp; Beratung / Table-scout by Webwerk</p><p>Markus ist Ihr erster Ansprechpartner. Er hört sich an, wo Ihr Betrieb gerade steht, klärt Ihre Fragen und hilft Ihnen, die passende Unterstützung zu finden. Ob es um einzelne Bewertungen, einen stärkeren Auftritt bei Google oder die laufende Betreuung geht: Sie erhalten einen verständlichen Vorschlag mit klarem Umfang und Preis.</p><p>Für den Anfang brauchen wir nur Ihren Betrieb und Ihr Anliegen. Wir sehen uns Ihr Profil an und besprechen, welcher nächste Schritt für Sie sinnvoll ist.</p>${button("Mit Markus ins Gespräch kommen", "advice")}</div>${picture("markus-weber", "Markus Weber, Ansprechpartner bei table-scout", "markus-portrait", true)}</section>
+<section class="section about-experience"><div>${eyebrow("Die Erfahrung hinter Table-scout")}<p class="big-number">6 Jahre.</p><h2>LOKAL GEDACHT.<br>BEI GOOGLE<br>SICHTBAR.</h2></div><div><p class="lead">Webwerk ist seit sechs Jahren auf lokales SEO spezialisiert. Der Schwerpunkt: Unternehmen dort sichtbar und verständlich machen, wo Menschen nach ihnen suchen.</p><p>Table-scout bringt diese Erfahrung in die Gastronomie. Ein Gast möchte wissen, was ihn erwartet, wann geöffnet ist und wie er reservieren kann. Bewertungen, Bilder und Profilinformationen prägen diesen ersten Eindruck zusammen.</p><p>Deshalb betrachten wir Ihren Google-Auftritt als Ganzes und stimmen die Arbeit auf Ihren Betrieb ab. Die Ergebnisse unserer Webwerk-Kunden zeigen, wie sich optimierte Profile entwickeln können.</p><a class="text-button" href="/profiloptimierung#ergebnisse">Gastro-Ergebnisse ansehen</a></div></section>
+<section class="section about-values"><div class="section-heading"><h2>So arbeiten<br>wir zusammen.</h2>${eyebrow("Persönlich / Nachvollziehbar / Im Alltag brauchbar")}</div><div>${[
+    [
+      "Erst verstehen.",
+      "Wir schauen uns Ihren Betrieb und Ihr Google-Profil an. Ihr Anliegen bestimmt, welche Leistung sinnvoll ist.",
+    ],
+    [
+      "Klar vereinbaren.",
+      "Sie kennen Umfang und Preis, bevor Sie einen Auftrag erteilen. Einmalige Leistungen und laufende Betreuung bleiben klar getrennt.",
+    ],
+    [
+      "Dranbleiben.",
+      "Sie haben einen Ansprechpartner, der den Ablauf erklärt. Im Partnerprogramm kümmern wir uns fortlaufend um Bewertungen und Profilpflege.",
+    ],
+  ]
+    .map(
+      ([title, text], i) =>
+        `<article>${eyebrow("0" + (i + 1))}<h3>${title}</h3><p>${text}</p></article>`,
+    )
+    .join("")}</div></section>`,
+};

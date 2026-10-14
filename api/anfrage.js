@@ -16,18 +16,25 @@ module.exports = async function handler(req, res) {
   if (typeof body === 'string') {
     try { body = JSON.parse(body) } catch { body = null }
   }
-  if (!body || typeof body !== 'object') return res.status(400).json({ ok: false, reason: 'invalid_input' })
+  if (!body || typeof body !== 'object' || Array.isArray(body)) return res.status(400).json({ ok: false, reason: 'invalid_input' })
   // Honeypot: Bots fuellen das versteckte Feld, bekommen aber ein "ok".
   if (body.website) return res.status(200).json({ ok: true })
 
   const payload = { antwortService: body.antwortService === true }
   for (const f of FIELDS) if (typeof body[f] === 'string') payload[f] = body[f].slice(0, 3000)
 
+  if (Array.isArray(body.services)) payload.services = body.services.slice(0, 5)
+  if (body.calculator && typeof body.calculator === 'object') {
+    payload.calculator = {}
+    for (const f of ['positive', 'negative', 'existing']) if (body.calculator[f] !== undefined) payload.calculator[f] = body.calculator[f]
+  }
+
   try {
     const r = await fetch(TARGET, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-website-funnel-key': key },
       body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(50000),
     })
     const data = await r.json().catch(() => ({}))
     return res.status(r.status).json({ ok: Boolean(data.ok), reason: data.reason, fields: data.fields })

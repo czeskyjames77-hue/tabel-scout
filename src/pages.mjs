@@ -174,3 +174,37 @@ ${faq([
 ])}`,
   },
 };
+
+pages.about = {
+  path: "/ueber-uns",
+  title: "Über table-scout | Gastro im Fokus. Webwerk im Rücken.",
+  description:
+    "table-scout ist die Gastro-Marke von Webwerk. Sechs Jahre Erfahrung mit lokalem SEO und Google-Auffindbarkeit, ein persönlicher Ansprechpartner und klare Leistungen.",
+  service: "advice",
+  footer: [
+    "LASSEN SIE UNS<br>INS GESPRÄCH KOMMEN.",
+    "Ein kurzer Blick auf Ihr Profil. Ein konkreter nächster Schritt.",
+  ],
+  content: `<section class="section about-hero">${eyebrow("Über Table-scout / Eine Marke von Webwerk")}<h1>GASTRO IM FOKUS.<br><span class="blue">WEBWERK<br>IM RÜCKEN.</span></h1><div class="about-intro"><p class="lead">Gute Gastgeber kümmern sich um ihre Gäste. Wir kümmern uns darum, wie ihr Betrieb bei Google wahrgenommen wird.</p><p>Table-scout bündelt die Erfahrung von Webwerk für Restaurants, Cafés, Bars und Hotels: von der Prüfung unberechtigter Bewertungen über die Profiloptimierung bis zur laufenden Betreuung.</p></div></section>
+<section class="section about-person"><div>${eyebrow("Ihr Ansprechpartner")}<h2>GUTER SERVICE<br>BEGINNT MIT<br>EINEM GESPRÄCH.</h2><h3>Markus Weber</h3><p class="eyebrow blue">Vertrieb &amp; Beratung / Table-scout by Webwerk</p><p>Markus ist Ihr erster Ansprechpartner. Er hört sich an, wo Ihr Betrieb gerade steht, klärt Ihre Fragen und hilft Ihnen, die passende Unterstützung zu finden. Ob es um einzelne Bewertungen, einen stärkeren Auftritt bei Google oder die laufende Betreuung geht: Sie erhalten einen verständlichen Vorschlag mit klarem Umfang und Preis.</p><p>Für den Anfang brauchen wir nur Ihren Betrieb und Ihr Anliegen. Wir sehen uns Ihr Profil an und besprechen, welcher nächste Schritt für Sie sinnvoll ist.</p>${button("Mit Markus ins Gespräch kommen", "advice")}</div>${picture("markus-weber", "Markus Weber, Ansprechpartner bei table-scout", "markus-portrait", true)}</section>
+<section class="section about-experience"><div>${eyebrow("Die Erfahrung hinter Table-scout")}<p class="big-number">6 Jahre.</p><h2>LOKAL GEDACHT.<br>BEI GOOGLE<br>SICHTBAR.</h2></div><div><p class="lead">Webwerk ist seit sechs Jahren auf lokales SEO spezialisiert. Der Schwerpunkt: Unternehmen dort sichtbar und verständlich machen, wo Menschen nach ihnen suchen.</p><p>Table-scout bringt diese Erfahrung in die Gastronomie. Ein Gast möchte wissen, was ihn erwartet, wann geöffnet ist und wie er reservieren kann. Bewertungen, Bilder und Profilinformationen prägen diesen ersten Eindruck zusammen.</p><p>Deshalb betrachten wir Ihren Google-Auftritt als Ganzes und stimmen die Arbeit auf Ihren Betrieb ab. Die Ergebnisse unserer Webwerk-Kunden zeigen, wie sich optimierte Profile entwickeln können.</p><a class="text-button" href="/profiloptimierung#ergebnisse">Gastro-Ergebnisse ansehen</a></div></section>
+<section class="section about-values"><div class="section-heading"><h2>So arbeiten<br>wir zusammen.</h2>${eyebrow("Persönlich / Nachvollziehbar / Im Alltag brauchbar")}</div><div>${[
+    [
+      "Erst verstehen.",
+      "Wir schauen uns Ihren Betrieb und Ihr Google-Profil an. Ihr Anliegen bestimmt, welche Leistung sinnvoll ist.",
+    ],
+    [
+      "Klar vereinbaren.",
+      "Sie kennen Umfang und Preis, bevor Sie einen Auftrag erteilen. Einmalige Leistungen und laufende Betreuung bleiben klar getrennt.",
+    ],
+    [
+      "Dranbleiben.",
+      "Sie haben einen Ansprechpartner, der den Ablauf erklärt. Im Partnerprogramm kümmern wir uns fortlaufend um Bewertungen und Profilpflege.",
+    ],
+  ]
+    .map(
+      ([title, text], i) =>
+        `<article>${eyebrow("0" + (i + 1))}<h3>${title}</h3><p>${text}</p></article>`,
+    )
+    .join("")}</div></section>`,
+};

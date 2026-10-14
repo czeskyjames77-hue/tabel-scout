@@ -4,7 +4,7 @@ Static, responsive website for review deletion, Google profile optimization and 
 
 ## Development
 
-- `npm run build` generates the four service pages and legal pages into `dist/`.
+- `npm run build` generates the five website pages and legal pages into `dist/`.
 - `npm run dev` serves the generated website at `http://127.0.0.1:4180`. Run the build after editing sources. The local server deliberately does not send inquiries.
 - `npm test` verifies price boundaries and the server-side inquiry proxy.
 - Page content: `src/pages.mjs`; shared navigation/dialog/footer: `src/layout.mjs`; styles/interactions: `assets/`.
@@ -28,6 +28,6 @@ Proof points are attributed to the Webwerk family. Irish Castle: 531 to 997 prof
 
 ## Verification
 
-The implementation was checked in Chromium at 1440, 1024, 768, 390 and 360 px across all seven public pages, plus WebKit mobile. Tests cover multi-select inquiries, defaults, calculator boundaries, payload preservation, validation, submission failure/retry, keyboard dismissal, mobile navigation, FAQ and WCAG A/AA automated checks. Live delivery and dashboard handoff are verified separately after production deployment.
+The implementation was checked in Chromium at 1440, 1024, 768, 390 and 360 px across all eight public pages, plus WebKit mobile. Tests cover multi-select inquiries, defaults, calculator boundaries, payload preservation, validation, submission failure/retry, keyboard dismissal, mobile navigation, FAQ and WCAG A/AA automated checks. Live delivery and dashboard handoff are verified separately after production deployment.
 
 Previous production deployment before this release: `https://table-scout-lyzk9kow1-agentwerk.vercel.app`. Rollback, if needed: `vercel rollback <previous-ready-url> --scope agentwerk`.

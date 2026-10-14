@@ -25,7 +25,7 @@ const credits = [
   ["Kris Tian", "T3zcj51zuc4", "Barista"],
   ["CHEN HENG", "4S5_KBQzNRM", "Café-Interieur"],
 ];
-legal.bildnachweise = `<h1>Bildnachweise</h1><p>Fotografien aus dem Alltag der Gastronomie. Die abgebildeten Betriebe und Personen stehen beispielhaft für das Umfeld unserer Leistungen.</p>${credits.map(([n, id, description]) => `<section><h2>${description}</h2><p>Fotografie: <a href="https://unsplash.com/photos/${id}" target="_blank" rel="noopener">${n} / Unsplash</a></p></section>`).join("")}<p>Nutzung gemäß <a href="https://unsplash.com/license">Unsplash-Lizenz</a>. Schriftarten: Instrument Sans und IBM Plex Mono, SIL Open Font License.</p>`;
+legal.bildnachweise = `<h1>Bildnachweise</h1><p>Fotografien aus dem Alltag der Gastronomie. Die abgebildeten Betriebe und Personen stehen beispielhaft für das Umfeld unserer Leistungen.</p>${credits.map(([n, id, description]) => `<section><h2>${description}</h2><p>Fotografie: <a href="https://unsplash.com/photos/${id}" target="_blank" rel="noopener">${n} / Unsplash</a></p></section>`).join("")}<p>Nutzung der Gastro-Fotografien gemäß <a href="https://unsplash.com/license">Unsplash-Lizenz</a>. Portrait: <a href="https://www.pexels.com/photo/15597616/">Tanja Nikolic / Pexels</a>, bereitgestellt von Webwerk. Schriftarten: Instrument Sans und IBM Plex Mono, SIL Open Font License.</p>`;
 for (const [name, content] of Object.entries(legal))
   await fs.writeFile(
     `dist/${name}.html`,
@@ -61,4 +61,4 @@ await fs.writeFile(
   "dist/robots.txt",
   "User-agent: *\nAllow: /\nDisallow: /api/\nSitemap: https://table-scout.com/sitemap.xml\n",
 );
-console.log("Built 4 service pages, legal pages, metadata and sitemap.");
+console.log("Built 5 website pages, legal pages, metadata and sitemap.");

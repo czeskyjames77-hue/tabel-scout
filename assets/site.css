@@ -2292,3 +2292,160 @@ dialog::backdrop {
 .receipt-total > span {
   margin-left: auto;
 }
+.about-hero > .eyebrow {
+  color: var(--blue);
+  margin-bottom: 32px;
+}
+.about-hero h1 {
+  font-size: clamp(55px, 7.4vw, 116px);
+  font-weight: 650;
+  letter-spacing: -0.058em;
+}
+.about-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  margin-top: 42px;
+  max-width: 1200px;
+}
+.about-intro p + p {
+  margin: 0;
+}
+.about-person {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 90px;
+  border-top: 1px solid var(--line);
+  align-items: center;
+}
+.about-person h2 {
+  font-size: clamp(40px, 4.1vw, 66px);
+  margin: 25px 0 35px;
+}
+.about-person h3 {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+.about-person .blue {
+  margin-bottom: 26px;
+}
+.about-person .button {
+  margin-top: 28px;
+}
+.about-person > img {
+  max-height: 760px;
+  min-height: 660px;
+  object-position: 50% 30%;
+}
+.about-experience {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 90px;
+  background: var(--paper);
+  align-items: center;
+}
+.about-experience .big-number {
+  margin: 25px 0;
+  font-size: clamp(80px, 8.2vw, 125px);
+}
+.about-experience h2 {
+  font-size: clamp(42px, 4vw, 64px);
+}
+.about-experience .text-button {
+  display: inline-block;
+  margin-top: 28px;
+}
+.about-values > div:last-child {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+.about-values article {
+  border-top: 1px solid var(--ink);
+  padding-top: 25px;
+}
+.about-values h3 {
+  margin: 24px 0 18px;
+  font-size: 29px;
+}
+.about-values article p:not(.eyebrow) {
+  font-size: 17px;
+}
+@media (max-width: 1100px) {
+  .site-header nav {
+    gap: 16px;
+  }
+  .about-person,
+  .about-experience {
+    gap: 45px;
+  }
+  .about-person > img {
+    min-height: 630px;
+  }
+  .about-intro {
+    gap: 40px;
+  }
+}
+@media (max-width: 820px) {
+  .about-person {
+    gap: 30px;
+  }
+  .about-person h2 {
+    font-size: 4.8vw;
+  }
+  .about-person > img {
+    min-height: 710px;
+  }
+  .about-experience {
+    gap: 35px;
+  }
+  .about-experience .lead {
+    font-size: 21px;
+  }
+  .about-values > div:last-child {
+    gap: 25px;
+  }
+}
+@media (max-width: 600px) {
+  .about-hero h1 {
+    font-size: 10.9vw;
+  }
+  .about-intro,
+  .about-person,
+  .about-experience,
+  .about-values > div:last-child {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .about-intro {
+    margin-top: 30px;
+  }
+  .about-intro .lead {
+    font-size: 22px;
+  }
+  .about-person h2 {
+    font-size: 40px;
+  }
+  .about-person > img {
+    min-height: 0;
+    height: 490px;
+    object-position: 50% 23%;
+    order: 2;
+  }
+  .about-person h3 {
+    font-size: 29px;
+  }
+  .about-person .eyebrow.blue {
+    font-size: 9px;
+  }
+  .about-experience .big-number {
+    font-size: 86px;
+  }
+  .about-experience h2 {
+    font-size: 44px;
+  }
+  .about-values h3 {
+    font-size: 28px;
+    margin-top: 20px;
+  }
+}

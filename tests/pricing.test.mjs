@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 import { deletionQuote, managementQuote } from "../assets/pricing.mjs";
 test("deletion prices use commissioned count, bill only successes", () => {
   for (const [count, unit] of [
-    [9, 19],
+    [5, 29],
+    [9, 29],
     [10, 19],
     [24, 19],
     [25, 15],
@@ -23,6 +24,8 @@ test("deletion prices use commissioned count, bill only successes", () => {
   });
   assert.equal(deletionQuote(10, 40).successes, 10);
   assert.equal(deletionQuote(-1, -1).total, 0);
+  assert.equal(deletionQuote(4).individual, true);
+  assert.equal(deletionQuote(5).individual, false);
 });
 test("management prices sum both star groups at every boundary", () => {
   for (const [count, price] of [

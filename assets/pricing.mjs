@@ -9,14 +9,15 @@ export const boundedCount = (value, max = 10000) =>
 export function deletionQuote(requested, successful = requested) {
   const count = boundedCount(requested);
   const successes = Math.min(count, boundedCount(successful));
-  const unit = count >= 100 ? 9 : count >= 50 ? 12 : count >= 25 ? 15 : 19;
+  const unit =
+    count >= 100 ? 9 : count >= 50 ? 12 : count >= 25 ? 15 : count >= 10 ? 19 : 29;
   return {
     count,
     successes,
     unit,
     total: unit * successes,
     unpaid: count - successes,
-    individual: count < 10,
+    individual: count < 5,
   };
 }
 export function managementQuote(positive, negative) {
